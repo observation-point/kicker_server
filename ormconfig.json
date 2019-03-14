@@ -1,0 +1,1 @@
+{"type":"postgres","host":"localhost","username":"gorod","password":"123qwe","database":"kicker","entities":[null],"migrations":["dist/infrastructure/migrations/*.js"],"logging":["error"]}
