@@ -1,49 +1,42 @@
-import { LoginParamForm } from "./validation/LoginParamForm";
-import { UserView } from "./view/UserView";
-import { UserResponse } from "./types";
-import { JsonController, Post, Body, Param, Get, OnUndefined } from "routing-controllers";
-import { getSalt, generatePasswordHash } from "../components/crypto";
-import { userRepository } from "../infrastructure/User/UserRepository";
+import { Body, Get, JsonController, OnUndefined, Param, Post } from "routing-controllers";
+
 import { GetSessionFromRequest } from "../components/decorators/GetSessionFromRequest";
 import { Session } from "../components/middlewares/Session";
+import { userService } from "../infrastructure/services/UserService";
+import { UserResponse } from "./types";
+import { LoginParamForm } from "./validation/LoginParamForm";
+import { UserView } from "./view/UserView";
 
 @JsonController("/auth")
 export class AurhController {
 
-    @Post("/:login")
+	@Post("/:login")
 	public async login(
-        @Param('login') login: string,
+		@Param("login") login: string,
 		@Body() { password }: LoginParamForm,
 		@GetSessionFromRequest() session: Session
 	): Promise<UserResponse> {
-		const user = await userRepository.getUserByLogin(login);
+		const user = await userService.getUserByLogin(login);
 		if (!user) {
 			throw new Error(`Now found user with ${login}`);
 		}
-		const salt = getSalt(user.password);
-		const hashPassword = generatePasswordHash(password, salt);
+		user.checkPass(password);
 
-		if (user.password !== hashPassword) {
-			throw new Error("Wrong password");
-		}
-
-		const { password: pswd, ...data } = user;
-
-		session.user = data;
+		session.user = user.serialize();
 
 		return UserView.makeResponse(user);
-    }
-
-    @Get('/')
-    public async isAuthorized(
-        @GetSessionFromRequest() session: Session
-    ): Promise<{ isAuthorized: boolean }> {
-        const isAuthorized = !!session.user;
-
-        return { isAuthorized };
 	}
-	
-	@Get('/logout')
+
+	@Get("/")
+	public async isAuthorized(
+		@GetSessionFromRequest() session: Session
+	): Promise<{ isAuthorized: boolean }> {
+		const isAuthorized = !!session.user;
+
+		return { isAuthorized };
+	}
+
+	@Get("/logout")
 	@OnUndefined(204)
 	public async logout(
 		@GetSessionFromRequest() session: Session
@@ -54,6 +47,5 @@ export class AurhController {
 			session.user = null;
 		}
 	}
-    
 
 }

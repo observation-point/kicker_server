@@ -1,3 +1,4 @@
+export * from "./User";
 export * from "./Game";
-export * from "./Lobby";
 export * from "./types";
+export * from "./Goal";

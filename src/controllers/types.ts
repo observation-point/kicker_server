@@ -1,10 +1,5 @@
-export type UserResponse = {
-    user: UserAttributes
-}
+import { UserAttrib } from "../infrastructure/entities";
 
-export type UserAttributes = {
-    login: string;
-    firstName: string;
-    lastName: string;
-    avatar: string;
+export interface UserResponse {
+	user: UserAttrib;
 }

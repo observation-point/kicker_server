@@ -1,7 +1,6 @@
 import { IsOptional, IsString, IsUUID } from "class-validator";
-import { User } from "src/domain/User/User";
 
-export class CreateUserForm implements User {
+export class CreateUserForm {
 
 	@IsUUID("4")
 	public id: string;

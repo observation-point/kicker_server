@@ -1,11 +1,11 @@
 import { NextFunction, Request as RequestExpress, Response } from "express";
 import { ExpressMiddlewareInterface, Middleware } from "routing-controllers";
-import { User } from "../../domain/User/User";
+import { UserAttrib } from "../../infrastructure/entities";
 import { redisStore } from "../redis/redisStore";
 
 const expressSession = require("express-session");
 export interface Session {
-	user: Partial<User>;
+	user: UserAttrib;
 }
 
 export interface Request extends RequestExpress {

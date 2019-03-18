@@ -1,14 +1,15 @@
 import { Body, Get, JsonController, OnUndefined, Post, Put } from "routing-controllers";
 
+import { plainToClass } from "class-transformer";
 import { generatePasswordHash, getSalt } from "../components/crypto";
-import { User } from "../domain/User/User";
-import { userRepository } from "../infrastructure/User/UserRepository";
+import { GetSessionFromRequest } from "../components/decorators/GetSessionFromRequest";
+import { Session } from "../components/middlewares/Session";
+import { User } from "../infrastructure/entities";
+import { userService } from "../infrastructure/services/UserService";
+import { UserResponse } from "./types";
 import { CreateUserForm } from "./validation/CreateUserForm";
 import { LoginParamForm } from "./validation/LoginParamForm";
 import { UserView } from "./view/UserView";
-import { UserResponse } from "./types";
-import { GetSessionFromRequest } from "../components/decorators/GetSessionFromRequest";
-import { Session } from "../components/middlewares/Session";
 
 @JsonController("/user")
 export class UserController {
@@ -22,11 +23,9 @@ export class UserController {
 
 		const hashPassword = generatePasswordHash(password);
 
-		const user = await userRepository.save({ ...data, password: hashPassword });
+		const user = await userService.save(plainToClass(User, { ...data, password: hashPassword }));
 
-		const { password: pswd, ...param } = user;
-
-		session.user = param;
+		session.user = user.serialize();
 
 		return UserView.makeResponse(user);
 	}

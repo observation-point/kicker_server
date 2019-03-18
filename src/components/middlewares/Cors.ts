@@ -1,8 +1,8 @@
 import { NextFunction, Request as RequestExpress, Response } from "express";
 import { ExpressMiddlewareInterface, Middleware } from "routing-controllers";
-import { User } from "../../domain/User/User";
+import { UserAttrib } from "../../infrastructure/entities";
 export interface Session {
-	user: Partial<User>;
+	user: UserAttrib;
 }
 
 export interface Request extends RequestExpress {
@@ -14,11 +14,10 @@ export interface Request extends RequestExpress {
 @Middleware({ type: "before" })
 export class Cors implements ExpressMiddlewareInterface {
 
-
 	public use(req: Request, res: Response, next: NextFunction) {
-		res.header('Access-Control-Allow-Origin', '*');
-		res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
-		res.header('Access-Control-Allow-Headers', 'Content-Type');
+		res.header("Access-Control-Allow-Origin", "*");
+		res.header("Access-Control-Allow-Methods", "PUT, GET, POST, DELETE, OPTIONS");
+		res.header("Access-Control-Allow-Headers", "Content-Type");
 		next();
 
 	}

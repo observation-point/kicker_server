@@ -1,12 +1,12 @@
 import "reflect-metadata";
 
+import * as cors from "cors";
 import * as express from "express";
 import { NextFunction, Response } from "express";
 import * as morgan from "morgan";
 import * as path from "path";
 import { createExpressServer } from "routing-controllers";
 import { createConnection } from "typeorm";
-import * as cors from 'cors';
 
 import { middlewares } from "./components/middlewares";
 import { dbConfig } from "./config/db";
