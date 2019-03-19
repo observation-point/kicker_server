@@ -25,12 +25,13 @@ export enum Role {
 }
 
 export enum Side {
-	Red = "red",
-	Black = "black"
+	RED = "RED",
+	BLACK = "BLACK"
 }
 
 export enum GameStatus {
-	Start = "start",
-	Process = "process",
-	End = "end"
-}
+	READY = "ready",
+	INPROCESS = "inprocess",
+	PAUSED = "paused",
+	FINISHED = "finished"
+  }

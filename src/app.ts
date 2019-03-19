@@ -10,6 +10,7 @@ import { createConnection } from "typeorm";
 
 import { middlewares } from "./components/middlewares";
 import { dbConfig } from "./config/db";
+import * as bodyParser from "body-parser";
 
 const PUBLIC_PATH = path.join(__dirname, "../public");
 
@@ -21,6 +22,8 @@ const app = createExpressServer({
 app.use(morgan("dev"));
 
 app.use(express.static(PUBLIC_PATH));
+
+app.use(bodyParser.json())
 
 async function startServer() {
 	const connection = await createConnection(dbConfig);

@@ -6,9 +6,9 @@ export class CreateGameTable1552689962260 implements MigrationInterface {
 		await queryRunner.query(
 			`create table game (
                 id VARCHAR(40) primary key,
-                start_game timestamptz,
-				end_game timestamptz,
-				status VARCHAR(10) not null,
+                "startGame" timestamptz,
+				"endGame" timestamptz,
+				status VARCHAR(10) not null
             );
             `
 		);

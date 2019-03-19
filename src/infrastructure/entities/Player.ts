@@ -9,30 +9,30 @@ export class Player {
 	@PrimaryColumn()
 	public id: string;
 
-	@Column("user_id")
+	@Column({ type: "varchar" })
 	public userId: string;
 
-	@Column("game_id")
+	@Column({ type: "varchar" })
 	public gameId: string;
 
-	@Column()
+	@Column("varchar")
 	public side: Side;
 
-	@Column()
+	@Column("varchar")
 	public role: Role;
 
-	@ManyToOne((type) => User, (user) => user.played)
+	@ManyToOne((type) => User, (user) => user.players)
 	public user: User;
 
 	@ManyToOne((type) => Game, (game) => game.players)
 	public game: Game;
 
-	public constructor(gameId: string, side: Side, role: Role, user: User) {
-		this.id = v4();
-		this.gameId = gameId;
-		this.userId = user.id;
-		this.side = side;
-		this.role = role;
-		this.user = user;
+	public constructor(data: { gameId: string, side: Side, role: Role, user: User }) {
+		this.id = data ? v4() : undefined;
+		this.gameId = data ? data.gameId : undefined;
+		this.userId = data ? data.user.id : undefined;
+		this.side = data ? data.side : undefined;
+		this.role = data ? data.role : undefined;
+		this.user = data ? data.user : undefined;
 	}
 }

@@ -166,7 +166,7 @@ class Game {
         const redDefense = document.createElement('div');
         redDefense.className = "lobby red defense";
         const blackAtack = document.createElement('div');
-        blackAtack.className = "lobby black defense";
+        blackAtack.className = "lobby black attack";
         const blackDefense = document.createElement('div');
         blackDefense.className = "lobby black defense";
 

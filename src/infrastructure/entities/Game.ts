@@ -1,9 +1,9 @@
 import { Column, Entity, OneToMany, PrimaryColumn } from "typeorm";
 import { v4 as uuid } from "uuid";
+import { emitter, EventType } from "../../components/events";
 import { Goal } from "./Goal";
 import { Player } from "./Player";
 import { GameState, GameStatus, Side } from "./types";
-import { emitter, EventType } from "../../components/events"
 
 @Entity("game")
 export class Game {
@@ -11,6 +11,8 @@ export class Game {
 	public static getInstance() {
 		if (!this.instance) {
 			this.instance = new Game();
+			this.instance.players = [];
+			this.instance.goals = [];
 		}
 
 		return this.instance;
@@ -18,6 +20,8 @@ export class Game {
 
 	public static newInstance() {
 		this.instance = new Game();
+		this.instance.players = [];
+		this.instance.goals = [];
 	}
 
 	protected static instance: Game;
@@ -25,10 +29,10 @@ export class Game {
 	@PrimaryColumn()
 	public id: string;
 
-	@Column({ name: "start_game" })
+	@Column("timestamptz")
 	public startGame: Date;
 
-	@Column({ name: "end_game" })
+	@Column("timestamptz")
 	public endGame: Date;
 
 	@Column("varchar")
@@ -42,25 +46,26 @@ export class Game {
 
 	public constructor() {
 		this.id = uuid();
-		this.status = GameStatus.Start;
+
+		this.status = GameStatus.READY;
 	}
 
 	public getState(): GameState {
 		return {
 			id: this.id,
-			players: this.players.map((item) => {
+			players: this.players ? this.players.map((item) => {
 				return {
 					role: item.role,
 					side: item.side,
 					user: item.user.serialize()
 				};
-			}),
-			goals: this.goals.map((item) => {
+			}) : [],
+			goals: this.goals ? this.goals.map((item) => {
 				return {
 					side: item.side,
 					time: item.time
 				};
-			}),
+			}) : [],
 			status: this.status
 		};
 	}
@@ -69,10 +74,10 @@ export class Game {
 		if (this.players.find((item) => item.role === player.role && item.side === player.side)) {
 			throw new Error("this place is already taken");
 		}
-		
+
 		this.players.push(player);
 		if (this.players.length === 4) {
-			this.status = GameStatus.Process;
+			this.status = GameStatus.INPROCESS;
 			emitter.emit(EventType.StartGame, this.id);
 		}
 	}

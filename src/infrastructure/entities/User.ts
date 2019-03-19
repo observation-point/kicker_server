@@ -19,7 +19,7 @@ export class User {
 	public avatar: string;
 
 	@OneToMany((type) => Player, (player) => player.user)
-	public played: Player[];
+	public players: Player[];
 
 	@Column()
 	private login: string;

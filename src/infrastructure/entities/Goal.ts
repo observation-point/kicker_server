@@ -9,7 +9,7 @@ export class Goal {
 	@PrimaryColumn()
 	public id: string;
 
-	@Column("game_id")
+	@Column("varchar")
 	public gameId: string;
 
 	@Column()

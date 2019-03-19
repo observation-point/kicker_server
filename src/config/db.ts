@@ -1,5 +1,5 @@
 import { ConnectionOptions } from "typeorm";
-import { User } from "../infrastructure/entities";
+import { Game, Goal, Player, User } from "../infrastructure/entities";
 
 export const dbConfig: ConnectionOptions = {
 	type: "postgres",
@@ -8,7 +8,10 @@ export const dbConfig: ConnectionOptions = {
 	password: "123qwe",
 	database: "kicker",
 	entities: [
-		User
+		User,
+		Player,
+		Goal,
+		Game
 	],
 	migrations: [
 		"dist/infrastructure/migrations/*.js"

@@ -6,8 +6,8 @@ export class CreatePlayerTable1552689982269 implements MigrationInterface {
 		await queryRunner.query(
 			`create table player (
                 id VARCHAR(40) primary key,
-                user_id VARCHAR(40) references kicker_user(id),
-                game_id VARCHAR(40) references game(id),
+                "userId" VARCHAR(40) references kicker_user(id),
+                "gameId" VARCHAR(40) references game(id),
                 side VARCHAR(5) not null,
                 role VARCHAR(10) not null
             );

@@ -2,10 +2,11 @@ import { Body, Get, JsonController, OnUndefined, Post, Put } from "routing-contr
 
 import { GetSessionFromRequest } from "../components/decorators/GetSessionFromRequest";
 import { Session } from "../components/middlewares/Session";
+import { Game, GameState, GameStatus, Goal, Role, Side } from "../infrastructure/entities";
+import { Player } from "../infrastructure/entities/Player";
+import { gameService } from "../infrastructure/services/GameService";
 import { userService } from "../infrastructure/services/UserService";
-import { Game, GameState, Role, Side, GameStatus, Goal } from "src/infrastructure/entities";
-import { Player } from "src/infrastructure/entities/Player";
-import { gameService } from "src/infrastructure/services/GameService";
+import { GameStats } from "./types";
 
 @JsonController("/game")
 export class GameController {
@@ -13,22 +14,37 @@ export class GameController {
 	@Get("/")
 	public async getState(): Promise<GameState> {
 		const game = Game.getInstance();
+
+		await gameService.save(game);
 		return game.getState();
 	}
 
 	@Put("/")
 	@OnUndefined(204)
 	public async update(
-		@Body() { side, time }: { side: Side, time: Date }
+		@Body() data: GameStats
 	): Promise<void> {
 		const game = Game.getInstance();
-		if (game.status !== GameStatus.Process) {
+		if (data.id !== game.id) {
+			throw new Error("invalid game");
+		}
+
+		if (game.status !== GameStatus.INPROCESS) {
 			throw new Error("update count is possible only with process game status");
 		}
-		const goal = new Goal(game.id, side, time);
+		const newGoals = data.goals.filter((item) => {
+			return !game.goals.find((g) => g.side === item.team && g.time === item.time);
+		});
 
-		game.addGoal(goal);
+		newGoals.forEach(({ team, time }) => {
+			game.addGoal(new Goal(game.id, team, time));
+		});
+		game.status = data.status;
 		await gameService.save(game);
+
+		if (data.status === GameStatus.FINISHED) {
+			Game.newInstance();
+		}
 	}
 
 	@Post("/")
@@ -37,7 +53,7 @@ export class GameController {
 		@Body() { role, side }: { role: Role, side: Side }
 	): Promise<GameState> {
 		const game = Game.getInstance();
-		if (game.status !== GameStatus.Start) {
+		if (game.status !== GameStatus.READY) {
 			throw new Error("lobby is full");
 		}
 
@@ -46,7 +62,12 @@ export class GameController {
 		}
 
 		const user = await userService.getUser(session.user.id);
-		const player = new Player(game.id, side, role, user);
+		const player = new Player({
+			gameId: game.id,
+			side,
+			role,
+			user
+		});
 
 		await game.addPlayer(player);
 
