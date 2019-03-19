@@ -39,10 +39,13 @@ export class GameController {
 		newGoals.forEach(({ team, time }) => {
 			game.addGoal(new Goal(game.id, team, time));
 		});
-		game.status = data.status;
 		await gameService.save(game);
-
+		
 		if (data.status === GameStatus.FINISHED) {
+			game.status = data.status;
+			game.endGame = new Date();
+			await gameService.save(game);
+
 			Game.newInstance();
 		}
 	}

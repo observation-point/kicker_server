@@ -78,6 +78,7 @@ export class Game {
 		this.players.push(player);
 		if (this.players.length === 4) {
 			this.status = GameStatus.INPROCESS;
+			this.startGame = new Date();
 			emitter.emit(EventType.StartGame, this.id);
 		}
 	}
