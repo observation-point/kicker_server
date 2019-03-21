@@ -40,7 +40,7 @@ export class GameController {
 			game.addGoal(new Goal(game.id, team, time));
 		});
 		await gameService.save(game);
-		
+
 		if (data.status === GameStatus.FINISHED) {
 			game.status = data.status;
 			game.endGame = new Date();

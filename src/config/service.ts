@@ -1,3 +1,3 @@
 export const serviceConfig = {
-	auto: "http://localhost:3003/api"
+	auto: "http://192.168.9.112:3000/api"
 };
