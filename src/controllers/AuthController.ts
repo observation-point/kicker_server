@@ -7,7 +7,7 @@ import { UserResponse } from "./types";
 import { LoginParamForm } from "./validation/LoginParamForm";
 import { UserView } from "./view/UserView";
 
-@JsonController("/auth")
+@JsonController("/api/auth")
 export class AurhController {
 
 	@Post("/:login")

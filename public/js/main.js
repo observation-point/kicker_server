@@ -41,7 +41,7 @@ async function actionLogin(event) {
     const login = document.getElementById("login").value;
     const password = document.getElementById("password").value;
 
-    const { user } = (await axios.post(`http://${window.location.host}/auth/${login}`, { password })).data;
+    const { user } = (await axios.post(`http://${window.location.host}/api/auth/${login}`, { password })).data;
 
     const form = document.getElementById("loginScreen");
     form.parentNode.removeChild(form);
@@ -56,7 +56,7 @@ async function actionRegistartion(event) {
     const firstName = document.getElementById("firstName").value;
     const lastName = document.getElementById("lastName").value;
 
-    const { user } = (await axios.post(`http://${window.location.host}/user/`, { 
+    const { user } = (await axios.post(`http://${window.location.host}/api/user/`, { 
         id: uuidv4(),
         login,
         password,
@@ -144,7 +144,7 @@ class Game {
     }
 
     async init() {
-        const { data } = await axios.get(`http://${window.location.host}/game`);
+        const { data } = await axios.get(`http://${window.location.host}/api/game`);
         this.players = data.players;
         this.count = data.count;
         this.isRunning = data.isRunning;
@@ -197,14 +197,14 @@ async function addToLobby(event) {
         }
     }
 
-    const { data } = await axios.post(`http://${window.location.host}/game`, request);
+    const { data } = await axios.post(`http://${window.location.host}/api/game`, request);
     console.log(data);
 
 }
 
 class LoginScreen {
     static async checkAuthorize() {
-        const test = await axios.get(`http://${window.location.host}/auth`);
+        const test = await axios.get(`http://${window.location.host}/api/auth`);
 
         return test.data.isAuthorized;
     }

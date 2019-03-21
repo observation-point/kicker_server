@@ -11,7 +11,7 @@ import { CreateUserForm } from "./validation/CreateUserForm";
 import { LoginParamForm } from "./validation/LoginParamForm";
 import { UserView } from "./view/UserView";
 
-@JsonController("/user")
+@JsonController("/api/user")
 export class UserController {
 
 	@Post("/")

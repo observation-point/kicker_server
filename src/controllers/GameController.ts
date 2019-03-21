@@ -8,7 +8,7 @@ import { gameService } from "../infrastructure/services/GameService";
 import { userService } from "../infrastructure/services/UserService";
 import { GameStats } from "./types";
 
-@JsonController("/game")
+@JsonController("/api/game")
 export class GameController {
 
 	@Get("/")
