@@ -8,7 +8,7 @@ import { LoginParamForm } from "./validation/LoginParamForm";
 import { UserView } from "./view/UserView";
 
 @JsonController("/api/auth")
-export class AurhController {
+export class AuthController {
 
 	@Post("/:login")
 	public async login(
