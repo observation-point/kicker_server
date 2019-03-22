@@ -8,7 +8,7 @@ import { LoginParamForm } from "./validation/LoginParamForm";
 import { UserView } from "./view/UserView";
 
 @JsonController("/api/auth")
-export class AurhController {
+export class AuthController {
 
 	@Post("/:login")
 	public async login(
@@ -30,10 +30,14 @@ export class AurhController {
 	@Get("/")
 	public async isAuthorized(
 		@GetSessionFromRequest() session: Session
-	): Promise<{ isAuthorized: boolean }> {
+	): Promise<UserResponse> {
 		const isAuthorized = !!session.user;
 
-		return { isAuthorized };
+		if (!isAuthorized) {
+			throw new Error("is not authorized");
+		}
+
+		return { user: session.user };
 	}
 
 	@Get("/logout")
