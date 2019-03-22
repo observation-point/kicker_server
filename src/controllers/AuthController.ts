@@ -30,10 +30,15 @@ export class AurhController {
 	@Get("/")
 	public async isAuthorized(
 		@GetSessionFromRequest() session: Session
-	): Promise<{ isAuthorized: boolean }> {
+	): Promise<UserResponse> {
 		const isAuthorized = !!session.user;
+		if (!isAuthorized) {
+			throw new Error("is not authorize");
+		}
 
-		return { isAuthorized };
+		return {
+			user: session.user
+		};
 	}
 
 	@Get("/logout")
