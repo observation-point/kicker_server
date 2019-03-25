@@ -1,0 +1,27 @@
+{
+  "apps": [
+    {
+      "name": "KickerServer",
+      "script": "dist/app.js",
+      "watch": false,
+      "env": {
+        "NODE_ENV": "development"
+      }
+    }
+  ],
+  "deploy": {
+    "prod": {
+      "key": "~/.ssh/id_rsa",
+      "user": "gorod",
+      "host": ["www109.lan"],
+      "ssh_options": "StrictHostKeyChecking=no",
+      "ref": "origin/master",
+      "repo": "git@github.com:observation-point/kicker_server.git",
+      "path": "/home/gorod/kicker_server",
+      "pre-setup": "echo 'PRE SETUP'",
+      "post-setup": "echo 'POST SETUP'",
+      "pre-deploy-local": "echo 'This is a local executed command'",
+      "post-deploy": "yarn && yarn build && yarn migrate && pm2 start ecosystem.json --env prod"
+    }
+  }
+}
