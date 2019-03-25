@@ -15,7 +15,7 @@
       "user": "gorod",
       "host": ["www109.lan"],
       "ssh_options": "StrictHostKeyChecking=no",
-      "ref": "origin/master",
+      "ref": "origin/react",
       "repo": "git@github.com:observation-point/kicker_server.git",
       "path": "/home/gorod/kicker_server",
       "pre-setup": "echo 'PRE SETUP'",
