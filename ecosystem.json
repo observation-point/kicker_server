@@ -18,8 +18,8 @@
       "ref": "origin/react",
       "repo": "git@github.com:observation-point/kicker_server.git",
       "path": "/home/gorod/kicker_server",
-      "pre-setup": "echo 'PRE SETUP'",
-      "post-setup": "ln -sfn /home/gorod/kicker_server/current/nginx/kicker-app.conf /etc/nginx/sites-enabled/kicker-app.conf && sudo service nginx restart",
+      "pre-setup": "ln -sfn /home/gorod/kicker_server/current/nginx/kicker-app.conf /etc/nginx/sites-enabled/kicker-app.conf && sudo service nginx restart",
+      "post-setup": "echo 'POST SETUP'",
       "pre-deploy-local": "echo 'This is a local executed command'",
       "post-deploy": "yarn && yarn build && yarn migrate && pm2 start ecosystem.json --env prod"
     }
