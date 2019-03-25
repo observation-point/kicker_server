@@ -1,5 +1,5 @@
 Arguments: 
-  /usr/local/bin/node /usr/local/bin/yarn add -D @TYPES/axios
+  /usr/local/bin/node /usr/local/bin/yarn add -D @types/socket-io
 
 PATH: 
   /usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
@@ -14,7 +14,7 @@ Platform:
   darwin x64
 
 Trace: 
-  Error: https://registry.yarnpkg.com/@TYPES%2faxios: Not found
+  Error: https://registry.yarnpkg.com/@types%2fsocket-io: Not found
       at Request.params.callback [as _callback] (/usr/local/lib/node_modules/yarn/lib/cli.js:65905:18)
       at Request.self.callback (/usr/local/lib/node_modules/yarn/lib/cli.js:135526:22)
       at emitTwo (events.js:126:13)
@@ -57,6 +57,7 @@ npm manifest:
       "pg": "^7.8.1",
       "reflect-metadata": "^0.1.13",
       "routing-controllers": "^0.7.7",
+      "socket-io": "^1.0.0",
       "typeorm": "^0.2.14",
       "uuid": "^3.3.2"
     },
@@ -2213,6 +2214,10 @@ Lockfile:
       source-map "^0.5.6"
       source-map-resolve "^0.5.0"
       use "^3.1.0"
+  
+  socket-io@^1.0.0:
+    version "1.0.0"
+    resolved "https://registry.yarnpkg.com/socket-io/-/socket-io-1.0.0.tgz#fc566f4d30a6370224d07e65dcef386bd8f5d296"
   
   source-map-resolve@^0.5.0:
     version "0.5.2"
