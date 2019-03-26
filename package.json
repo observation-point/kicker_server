@@ -12,7 +12,8 @@
     "start": "node ./dist/app",
     "start-dev": "nodemon ./dist/app",
     "migrate": "node ./dist/bin/dbConfig > ormconfig.json && node ./node_modules/typeorm/cli migration:run",
-    "migrate-undo": "node ./dist/bin/dbConfig > ormconfig.json && node ./node_modules/typeorm/cli migration:revert"
+    "migrate-undo": "node ./dist/bin/dbConfig > ormconfig.json && node ./node_modules/typeorm/cli migration:revert",
+    "deploy": "pm2 deploy ecosystem.json prod"
   },
   "dependencies": {
     "axios": "^0.18.0",
