@@ -7,6 +7,7 @@ import { Player } from "../infrastructure/entities/Player";
 import { gameService } from "../infrastructure/services/GameService";
 import { userService } from "../infrastructure/services/UserService";
 import { GameStats } from "./types";
+import { CheckToken } from "src/components/decorators/CheckToken";
 
 @JsonController("/api/game")
 export class GameController {
@@ -22,7 +23,8 @@ export class GameController {
 	@Put("/")
 	@OnUndefined(204)
 	public async update(
-		@Body() data: GameStats
+		@Body() data: GameStats,
+		@CheckToken() test: number
 	): Promise<void> {
 		const game = Game.getInstance();
 		if (data.id !== game.id) {
