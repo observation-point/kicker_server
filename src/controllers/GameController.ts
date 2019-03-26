@@ -24,9 +24,9 @@ export class GameController {
 	@OnUndefined(204)
 	public async update(
 		@Body() data: GameStats,
-		@CheckToken() action: any
+		@CheckToken() action: boolean
 	): Promise<void> {
-		console.log(action.request.headers);
+		console.log(action);
 
 		const game = Game.getInstance();
 		if (data.id !== game.id) {
