@@ -32,10 +32,14 @@ export class GameController {
 		if (game.status !== GameStatus.INPROCESS) {
 			throw new Error("update count is possible only with process game status");
 		}
+		console.log("GAME GOALS", JSON.stringify(game.goals, null, 3));
+
 		const newGoals = data.goals.filter((item) => {
 			return !game.goals.find((g) => g.side === item.team && g.time === item.time);
 		});
 
+		console.log("NEW GOALS", JSON.stringify(newGoals, null, 3));
+		
 		newGoals.forEach(({ team, time }) => {
 			game.addGoal(new Goal(game.id, team, time));
 		});
