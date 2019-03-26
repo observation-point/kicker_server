@@ -1,5 +1,6 @@
 import { Body, Get, JsonController, OnUndefined, Post, Put } from "routing-controllers";
 
+import { CheckToken } from "../components/decorators/CheckToken";
 import { GetSessionFromRequest } from "../components/decorators/GetSessionFromRequest";
 import { Session } from "../components/middlewares/Session";
 import { Game, GameState, GameStatus, Goal, Role, Side } from "../infrastructure/entities";
@@ -7,7 +8,6 @@ import { Player } from "../infrastructure/entities/Player";
 import { gameService } from "../infrastructure/services/GameService";
 import { userService } from "../infrastructure/services/UserService";
 import { GameStats } from "./types";
-import { CheckToken } from "../components/decorators/CheckToken";
 
 @JsonController("/api/game")
 export class GameController {
@@ -43,7 +43,7 @@ export class GameController {
 		});
 
 		console.log("NEW GOALS", JSON.stringify(newGoals, null, 3));
-		
+
 		newGoals.forEach(({ team, time }) => {
 			game.addGoal(new Goal(game.id, team, time));
 		});
