@@ -26,7 +26,7 @@ export class GameController {
 		@Body() data: GameStats,
 		@CheckToken() action: any
 	): Promise<void> {
-		console.log(action);
+		console.log(action.request.headers);
 
 		const game = Game.getInstance();
 		if (data.id !== game.id) {
