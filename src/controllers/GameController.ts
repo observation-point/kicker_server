@@ -7,7 +7,7 @@ import { Player } from "../infrastructure/entities/Player";
 import { gameService } from "../infrastructure/services/GameService";
 import { userService } from "../infrastructure/services/UserService";
 import { GameStats } from "./types";
-import { CheckToken } from "src/components/decorators/CheckToken";
+import { CheckToken } from "../components/decorators/CheckToken";
 
 @JsonController("/api/game")
 export class GameController {
