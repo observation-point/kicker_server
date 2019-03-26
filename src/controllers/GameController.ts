@@ -24,8 +24,10 @@ export class GameController {
 	@OnUndefined(204)
 	public async update(
 		@Body() data: GameStats,
-		@CheckToken() test: number
+		@CheckToken() action: any
 	): Promise<void> {
+		console.log(action);
+
 		const game = Game.getInstance();
 		if (data.id !== game.id) {
 			throw new Error("invalid game");
