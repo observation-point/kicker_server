@@ -1,13 +1,14 @@
-import { Body, Get, JsonController, OnUndefined, Post, Put } from "routing-controllers";
+import { Body, Get, JsonController, OnUndefined, Post, Put, UseBefore } from "routing-controllers";
 
-import { CheckToken } from "../components/decorators/CheckToken";
 import { GetSessionFromRequest } from "../components/decorators/GetSessionFromRequest";
+import { CheckObserverToken } from "../components/middlewares/CheckObserverToken";
 import { Session } from "../components/middlewares/Session";
-import { Game, GameState, GameStatus, Goal, Role, Side } from "../infrastructure/entities";
+import { Game, Goal } from "../infrastructure/entities";
 import { Player } from "../infrastructure/entities/Player";
-import { gameService } from "../infrastructure/services/GameService";
-import { userService } from "../infrastructure/services/UserService";
+import { gameRepository } from "../infrastructure/repository/GameRepository";
+import { userRepository } from "../infrastructure/repository/UserRepository";
 import { GameStats } from "./types";
+import { GameState, GameStatus, Role, Side } from "../infrastructure/types";
 
 @JsonController("/api/game")
 export class GameController {
@@ -16,18 +17,16 @@ export class GameController {
 	public async getState(): Promise<GameState> {
 		const game = Game.getInstance();
 
-		await gameService.save(game);
+		await gameRepository.save(game);
 		return game.getState();
 	}
 
 	@Put("/")
+	@UseBefore(CheckObserverToken)
 	@OnUndefined(204)
 	public async update(
-		@Body() data: GameStats,
-		@CheckToken() action: boolean
+		@Body() data: GameStats
 	): Promise<void> {
-		console.log(action);
-
 		const game = Game.getInstance();
 		if (data.id !== game.id) {
 			throw new Error("invalid game");
@@ -36,23 +35,20 @@ export class GameController {
 		if (game.status !== GameStatus.INPROCESS) {
 			throw new Error("update count is possible only with process game status");
 		}
-		console.log("GAME GOALS", JSON.stringify(game.goals, null, 3));
 
 		const newGoals = data.goals.filter((item) => {
 			return !game.goals.find((g) => g.side === item.team && g.time === item.time);
 		});
 
-		console.log("NEW GOALS", JSON.stringify(newGoals, null, 3));
-
 		newGoals.forEach(({ team, time }) => {
 			game.addGoal(new Goal(game.id, team, time));
 		});
-		await gameService.save(game);
+		await gameRepository.save(game);
 
 		if (data.status === GameStatus.FINISHED) {
 			game.status = data.status;
 			game.endGame = new Date();
-			await gameService.save(game);
+			await gameRepository.save(game);
 
 			Game.newInstance();
 		}
@@ -72,7 +68,7 @@ export class GameController {
 			throw Error("not authorize");
 		}
 
-		const user = await userService.getUser(session.user.id);
+		const user = await userRepository.getUser(session.user.id);
 		const player = new Player({
 			gameId: game.id,
 			side,
@@ -82,7 +78,7 @@ export class GameController {
 
 		await game.addPlayer(player);
 
-		await gameService.save(game);
+		await gameRepository.save(game);
 
 		return game.getState();
 	}

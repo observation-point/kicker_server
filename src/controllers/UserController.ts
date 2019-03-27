@@ -5,10 +5,9 @@ import { generatePasswordHash, getSalt } from "../components/crypto";
 import { GetSessionFromRequest } from "../components/decorators/GetSessionFromRequest";
 import { Session } from "../components/middlewares/Session";
 import { User } from "../infrastructure/entities";
-import { userService } from "../infrastructure/services/UserService";
+import { userRepository } from "../infrastructure/repository/UserRepository";
 import { UserResponse } from "./types";
 import { CreateUserForm } from "./validation/CreateUserForm";
-import { LoginParamForm } from "./validation/LoginParamForm";
 import { UserView } from "./view/UserView";
 
 @JsonController("/api/user")
@@ -23,7 +22,7 @@ export class UserController {
 
 		const hashPassword = generatePasswordHash(password);
 
-		const user = await userService.save(plainToClass(User, { ...data, password: hashPassword }));
+		const user = await userRepository.save(plainToClass(User, { ...data, password: hashPassword }));
 
 		session.user = user.serialize();
 

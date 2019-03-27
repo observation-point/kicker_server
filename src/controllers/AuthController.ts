@@ -2,7 +2,7 @@ import { Body, Get, JsonController, OnUndefined, Param, Post } from "routing-con
 
 import { GetSessionFromRequest } from "../components/decorators/GetSessionFromRequest";
 import { Session } from "../components/middlewares/Session";
-import { userService } from "../infrastructure/services/UserService";
+import { userRepository } from "../infrastructure/repository/UserRepository";
 import { UserResponse } from "./types";
 import { LoginParamForm } from "./validation/LoginParamForm";
 import { UserView } from "./view/UserView";
@@ -16,7 +16,7 @@ export class AuthController {
 		@Body() { password }: LoginParamForm,
 		@GetSessionFromRequest() session: Session
 	): Promise<UserResponse> {
-		const user = await userService.getUserByLogin(login);
+		const user = await userRepository.getUserByLogin(login);
 		if (!user) {
 			throw new Error(`Now found user with ${login}`);
 		}

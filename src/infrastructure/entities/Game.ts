@@ -1,11 +1,9 @@
-import { Column, Entity, OneToMany, PrimaryColumn } from "typeorm";
 import { v4 as uuid } from "uuid";
 import { emitter, EventType } from "../../components/events";
 import { Goal } from "./Goal";
 import { Player } from "./Player";
-import { GameState, GameStatus, Side } from "./types";
+import { GameState, GameStatus, Side } from "../types";
 
-@Entity("game")
 export class Game {
 
 	public static getInstance() {
@@ -26,22 +24,12 @@ export class Game {
 
 	protected static instance: Game;
 
-	@PrimaryColumn()
 	public id: string;
-
-	@Column("timestamptz")
 	public startGame: Date;
-
-	@Column("timestamptz")
 	public endGame: Date;
-
-	@Column("varchar")
 	public status: GameStatus;
-
-	@OneToMany((type) => Player, (player) => player.game)
+	
 	public players: Player[];
-
-	@OneToMany((type) => Goal, (goal) => goal.game)
 	public goals: Goal[];
 
 	public constructor() {
@@ -85,5 +73,15 @@ export class Game {
 
 	public addGoal(goal: Goal) {
 		this.goals.push(goal);
+	}
+
+	public getScheme() {
+		return {
+			id: this.id,
+			startGame: this.startGame,
+			endGame: this.endGame,
+			status: this.status
+		};
+
 	}
 }

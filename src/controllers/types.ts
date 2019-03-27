@@ -1,7 +1,7 @@
-import { GameStatus, Side, UserAttrib } from "../infrastructure/entities";
+import { GameStatus, Side, UserAttributes } from "../infrastructure/types";
 
 export interface UserResponse {
-	user: UserAttrib;
+	user: UserAttributes;
 }
 
 export interface GameStats {

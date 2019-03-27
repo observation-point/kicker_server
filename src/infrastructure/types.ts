@@ -1,4 +1,4 @@
-export interface UserAttrib {
+export interface UserAttributes {
 	id: string;
 	firstName: string;
 	lastName: string;
@@ -10,7 +10,7 @@ export interface GameState {
 	players: Array<{
 		role: Role,
 		side: Side,
-		user: UserAttrib
+		user: UserAttributes
 	}>;
 	goals: Array<{
 		side: Side,

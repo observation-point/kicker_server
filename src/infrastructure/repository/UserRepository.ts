@@ -2,7 +2,7 @@ import { plainToClass } from "class-transformer";
 import { getRepository } from "typeorm";
 import { User } from "../entities";
 
-class UserService {
+class UserRepository {
 	public async getUser(id: string): Promise<User> {
 		return getRepository(User).findOne(id);
 	}
@@ -17,4 +17,4 @@ class UserService {
 
 }
 
-export const userService = new UserService();
+export const userRepository = new UserRepository();

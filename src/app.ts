@@ -1,17 +1,18 @@
 import "reflect-metadata";
 
-import * as cors from "cors";
 import * as express from "express";
-import { NextFunction, Response } from "express";
 import * as morgan from "morgan";
 import * as path from "path";
 import { createExpressServer } from "routing-controllers";
 import { createConnection } from "typeorm";
 
 import * as bodyParser from "body-parser";
+import { PostgresConnectionOptions } from "typeorm/driver/postgres/PostgresConnectionOptions";
+import { Config, ConfigType, DbConfig, ServerConfig } from "./components/config";
 import { middlewares } from "./components/middlewares";
-import { dbConfig } from "./config/db";
-import { serverConfig } from "./config/server";
+
+const dbConfig = Config.getInstance().getConfig(ConfigType.Db) as PostgresConnectionOptions;
+const serverConfig = Config.getInstance().getConfig(ConfigType.Server) as ServerConfig;
 
 const PUBLIC_PATH = path.join(__dirname, "../public");
 

@@ -10,7 +10,10 @@
         "object-literal-sort-keys": false,
         "trailing-comma": [ false ],
         "interface-name" : [true, "never-prefix"],
-        "indent": [true, "tabs", 4]
+        "indent": [true, "tabs", 4],
+        "jsdoc-format": false,
+        "variable-name": false,
+        "no-empty-interface": false
     },
     "rulesDirectory": []
 }
