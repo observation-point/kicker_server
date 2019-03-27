@@ -1,8 +1,8 @@
 import { v4 as uuid } from "uuid";
 import { emitter, EventType } from "../../components/events";
+import { GameState, GameStatus, Side } from "../types";
 import { Goal } from "./Goal";
 import { Player } from "./Player";
-import { GameState, GameStatus, Side } from "../types";
 
 export class Game {
 
@@ -28,7 +28,7 @@ export class Game {
 	public startGame: Date;
 	public endGame: Date;
 	public status: GameStatus;
-	
+
 	public players: Player[];
 	public goals: Goal[];
 
@@ -71,8 +71,8 @@ export class Game {
 		}
 	}
 
-	public addGoal(goal: Goal) {
-		this.goals.push(goal);
+	public addGoals(goals: Goal[]) {
+		this.goals.push(...goals);
 	}
 
 	public getScheme() {
@@ -83,5 +83,12 @@ export class Game {
 			status: this.status
 		};
 
+	}
+
+	public reset() {
+		this.id = uuid();
+		this.status = GameStatus.READY;
+		this.players = [];
+		this.goals = [];
 	}
 }

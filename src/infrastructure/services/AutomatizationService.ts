@@ -1,7 +1,7 @@
 import axios from "axios";
-import { ServicesConfig, Config, ConfigType } from "../../components/config";
+import { Config, ConfigType, ServicesConfig } from "../../components/config";
 
-const serviceConfig = <ServicesConfig>Config.getInstance().getConfig(ConfigType.Services);
+const serviceConfig = Config.getInstance().getConfig(ConfigType.Services) as ServicesConfig;
 
 class AutomatizationService {
 	public async startGame(id: string): Promise<void> {

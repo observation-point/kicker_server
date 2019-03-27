@@ -1,7 +1,7 @@
 import { Cors } from "./Cors";
-import { Session } from "./Session";
+import { SessionMiddleware } from "./Session";
 
 export const middlewares = [
-	Session,
+	SessionMiddleware,
 	Cors
 ];

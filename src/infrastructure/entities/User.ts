@@ -1,8 +1,6 @@
-import { Column, Entity, OneToMany, PrimaryColumn } from "typeorm";
 import { generatePasswordHash, getSalt } from "../../components/crypto";
-import { Player } from "./Player";
+import { UserModel } from "../models";
 import { UserAttributes } from "../types";
-
 
 export class User {
 
@@ -13,6 +11,18 @@ export class User {
 
 	public login: string;
 	public password: string;
+
+	public constructor(userModel: UserModel) {
+		const { id, firstName, lastName, login, password, avatar } = userModel;
+
+		this.id = id;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.avatar = avatar;
+		this.login = login;
+		this.password = password;
+
+	}
 
 	public serialize(): UserAttributes {
 		return {

@@ -2,7 +2,6 @@ import { Column, Entity, ManyToOne, PrimaryColumn } from "typeorm";
 import { v4 } from "uuid";
 import { Side } from "../types";
 
-
 export class Goal {
 
 	public id: string;

@@ -1,6 +1,6 @@
 import { NextFunction, Request as RequestExpress, Response } from "express";
 import { ExpressMiddlewareInterface, Middleware } from "routing-controllers";
-import { UserAttributes } from "../../infrastructure/entities";
+import { UserAttributes } from "../../infrastructure/types";
 export interface Session {
 	user: UserAttributes;
 }

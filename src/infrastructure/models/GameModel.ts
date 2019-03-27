@@ -1,8 +1,8 @@
 import { Column, Entity, OneToMany, PrimaryColumn } from "typeorm";
 
+import { GameStatus } from "../types";
 import { GoalModel } from "./GoalModel";
 import { PlayerModel } from "./PlayerModel";
-import { GameStatus } from "../types";
 
 @Entity("game")
 export class GameModel {

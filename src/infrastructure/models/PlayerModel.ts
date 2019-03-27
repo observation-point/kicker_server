@@ -1,7 +1,7 @@
 import { Column, Entity, ManyToOne, PrimaryColumn } from "typeorm";
 import { v4 } from "uuid";
-import { GameModel } from "./GameModel";
 import { Role, Side } from "../types";
+import { GameModel } from "./GameModel";
 import { UserModel } from "./UserModel";
 
 @Entity("player")

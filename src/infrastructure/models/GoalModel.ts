@@ -1,6 +1,6 @@
 import { Column, Entity, ManyToOne, PrimaryColumn } from "typeorm";
-import { GameModel } from "./GameModel";
 import { Side } from "../types";
+import { GameModel } from "./GameModel";
 
 @Entity("goal")
 export class GoalModel {

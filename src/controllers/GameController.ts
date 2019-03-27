@@ -7,8 +7,9 @@ import { Game, Goal } from "../infrastructure/entities";
 import { Player } from "../infrastructure/entities/Player";
 import { gameRepository } from "../infrastructure/repository/GameRepository";
 import { userRepository } from "../infrastructure/repository/UserRepository";
-import { GameStats } from "./types";
 import { GameState, GameStatus, Role, Side } from "../infrastructure/types";
+import { GameStats } from "./types";
+import { AddPlayerForm } from "./validation/AddPlayerForm";
 
 @JsonController("/api/game")
 export class GameController {
@@ -28,6 +29,7 @@ export class GameController {
 		@Body() data: GameStats
 	): Promise<void> {
 		const game = Game.getInstance();
+		await gameRepository.save(game);
 		if (data.id !== game.id) {
 			throw new Error("invalid game");
 		}
@@ -36,36 +38,40 @@ export class GameController {
 			throw new Error("update count is possible only with process game status");
 		}
 
-		const newGoals = data.goals.filter((item) => {
+		const newGoalsData = data.goals.filter((item) => {
 			return !game.goals.find((g) => g.side === item.team && g.time === item.time);
 		});
 
-		newGoals.forEach(({ team, time }) => {
-			game.addGoal(new Goal(game.id, team, time));
+		const newGoals = newGoalsData.map(({ team, time }) => {
+			return new Goal(game.id, team, time);
 		});
-		await gameRepository.save(game);
+
+		await Promise.all(newGoals.map((item) => gameRepository.saveGoal(item)));
+		game.addGoals(newGoals);
 
 		if (data.status === GameStatus.FINISHED) {
 			game.status = data.status;
 			game.endGame = new Date();
 			await gameRepository.save(game);
 
-			Game.newInstance();
+			game.reset();
+			await gameRepository.save(game);
 		}
 	}
 
 	@Post("/")
 	public async addPlayer(
 		@GetSessionFromRequest() session: Session,
-		@Body() { role, side }: { role: Role, side: Side }
+		@Body() { role, side }: AddPlayerForm
 	): Promise<GameState> {
-		const game = Game.getInstance();
-		if (game.status !== GameStatus.READY) {
-			throw new Error("lobby is full");
-		}
-
 		if (!session.user) {
 			throw Error("not authorize");
+		}
+
+		const game = Game.getInstance();
+		await gameRepository.save(game);
+		if (game.status !== GameStatus.READY) {
+			throw new Error("lobby is full");
 		}
 
 		const user = await userRepository.getUser(session.user.id);
@@ -76,9 +82,8 @@ export class GameController {
 			user
 		});
 
-		await game.addPlayer(player);
-
-		await gameRepository.save(game);
+		await gameRepository.savePlayer(player);
+		game.addPlayer(player);
 
 		return game.getState();
 	}

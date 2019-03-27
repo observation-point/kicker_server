@@ -1,6 +1,6 @@
 import { NextFunction, Request as RequestExpress, Response } from "express";
 import { ExpressMiddlewareInterface, Middleware } from "routing-controllers";
-import { UserAttributes } from "../../infrastructure/entities";
+import { UserAttributes } from "../../infrastructure/types";
 import { redisStore } from "../redis/redisStore";
 
 const expressSession = require("express-session");
@@ -15,7 +15,7 @@ export interface Request extends RequestExpress {
 }
 
 @Middleware({ type: "before" })
-export class Session implements ExpressMiddlewareInterface {
+export class SessionMiddleware implements ExpressMiddlewareInterface {
 	protected setSession = expressSession({
 		cookie: {
 			httpOnly: false,

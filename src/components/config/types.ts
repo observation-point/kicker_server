@@ -19,6 +19,7 @@ export interface ConfigDictionary {
 
 export interface ServicesConfig extends BaseConfig {
 	observer: string;
+	token: string;
 }
 
 export interface BaseConfig {}

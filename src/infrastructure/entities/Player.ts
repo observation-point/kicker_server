@@ -6,7 +6,7 @@ export class Player {
 	public id: string;
 
 	public gameId: string;
-	
+
 	public user: User;
 	public side: Side;
 	public role: Role;
@@ -15,6 +15,7 @@ export class Player {
 		this.id = v4();
 		this.gameId = data.gameId;
 		this.user = data.user;
+		this.role = data.role;
 		this.side = data.side;
 	}
 

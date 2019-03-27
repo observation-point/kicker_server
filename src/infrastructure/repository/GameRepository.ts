@@ -1,7 +1,7 @@
-import { getRepository } from "typeorm";
-import { Game } from "../entities";
-import { PlayerModel, GoalModel, GameModel } from "../models";
 import { plainToClass } from "class-transformer";
+import { getRepository } from "typeorm";
+import { Game, Goal, Player } from "../entities";
+import { GameModel, GoalModel, PlayerModel } from "../models";
 
 class GameRepository {
 	public async getGameById(id: string): Promise<Game> {
@@ -9,15 +9,16 @@ class GameRepository {
 	}
 
 	public async save(game: Game): Promise<void> {
-		await Promise.all([
-			...game.players.map((item) => getRepository(PlayerModel).save(plainToClass(PlayerModel, item.getScheme())))
-		]);
-
-		await Promise.all([
-			...game.goals.map((item) => getRepository(GoalModel).save(plainToClass(GoalModel, item)))
-		]);
 
 		await getRepository(GameModel).save(plainToClass(GameModel, game.getScheme()));
+	}
+
+	public async savePlayer(player: Player): Promise<void> {
+		await getRepository(PlayerModel).save(plainToClass(PlayerModel, player.getScheme()));
+	}
+
+	public async saveGoal(goal: Goal): Promise<void> {
+		await getRepository(GoalModel).save(plainToClass(GoalModel, goal));
 	}
 
 }
