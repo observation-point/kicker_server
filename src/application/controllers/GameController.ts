@@ -5,11 +5,9 @@ import { GetSessionFromRequest } from "../../components/decorators/GetSessionFro
 import { CheckAuthorize } from "../../components/middlewares/CheckAuthorize";
 import { CheckObserverToken } from "../../components/middlewares/CheckObserverToken";
 import { Session } from "../../components/middlewares/Session";
-import { Game, Goal } from "../../infrastructure/entities";
-import { Player } from "../../infrastructure/entities/Player";
+import { Game } from "../../infrastructure/entities";
 import { GameRepository } from "../../infrastructure/repository/GameRepository";
-import { UserRepository } from "../../infrastructure/repository/UserRepository";
-import { GameState, GameStatus, Role, Side } from "../../infrastructure/types";
+import { GameState } from "../../infrastructure/types";
 import { GameStats } from "../types";
 import { AddGoal } from "../use-cases/AddGoal";
 import { AddPlayer } from "../use-cases/AddPlayer";
