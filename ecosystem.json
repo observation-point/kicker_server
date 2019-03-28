@@ -20,7 +20,7 @@
       "user": "gorod",
       "host": ["www109.lan"],
       "ssh_options": "StrictHostKeyChecking=no",
-      "ref": "origin/globalRefactoring",
+      "ref": "origin/master",
       "repo": "git@github.com:observation-point/kicker_server.git",
       "path": "/home/gorod/kicker_server",
       "pre-setup": "ln -sfn /home/gorod/kicker_server/current/nginx/kicker-app.conf /etc/nginx/sites-enabled/kicker-app.conf && sudo service nginx restart",
