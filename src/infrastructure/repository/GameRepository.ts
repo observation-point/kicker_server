@@ -1,9 +1,11 @@
 import { plainToClass } from "class-transformer";
+import { Service } from "typedi";
 import { getRepository } from "typeorm";
 import { Game, Goal, Player } from "../entities";
 import { GameModel, GoalModel, PlayerModel } from "../models";
 
-class GameRepository {
+@Service()
+export class GameRepository {
 	public async getGameById(id: string): Promise<Game> {
 		return getRepository(Game).findOne(id);
 	}
@@ -22,5 +24,3 @@ class GameRepository {
 	}
 
 }
-
-export const gameRepository = new GameRepository();

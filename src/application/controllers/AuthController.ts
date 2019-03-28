@@ -1,14 +1,17 @@
 import { Body, Get, JsonController, OnUndefined, Param, Post } from "routing-controllers";
 
-import { GetSessionFromRequest } from "../components/decorators/GetSessionFromRequest";
-import { Session } from "../components/middlewares/Session";
-import { userRepository } from "../infrastructure/repository/UserRepository";
-import { UserResponse } from "./types";
-import { LoginParamForm } from "./validation/LoginParamForm";
-import { UserView } from "./view/UserView";
+import { Inject } from "typedi";
+import { GetSessionFromRequest } from "../../components/decorators/GetSessionFromRequest";
+import { Session } from "../../components/middlewares/Session";
+import { UserRepository } from "../../infrastructure/repository/UserRepository";
+import { UserResponse } from "../types";
+import { LoginParamForm } from "../validation/LoginParamForm";
+import { UserView } from "../view/UserView";
 
 @JsonController("/api/auth")
 export class AuthController {
+	@Inject()
+	private userRepository: UserRepository;
 
 	@Post("/:login")
 	public async login(
@@ -16,7 +19,7 @@ export class AuthController {
 		@Body() { password }: LoginParamForm,
 		@GetSessionFromRequest() session: Session
 	): Promise<UserResponse> {
-		const user = await userRepository.getUserByLogin(login);
+		const user = await this.userRepository.getUserByLogin(login);
 		if (!user) {
 			throw new Error(`Now found user with ${login}`);
 		}

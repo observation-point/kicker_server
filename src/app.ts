@@ -3,7 +3,8 @@ import "reflect-metadata";
 import * as express from "express";
 import * as morgan from "morgan";
 import * as path from "path";
-import { createExpressServer } from "routing-controllers";
+import { createExpressServer, useContainer } from "routing-controllers";
+import { Container } from "typedi";
 import { createConnection } from "typeorm";
 
 import * as bodyParser from "body-parser";
@@ -11,13 +12,16 @@ import { PostgresConnectionOptions } from "typeorm/driver/postgres/PostgresConne
 import { Config, ConfigType, DbConfig, ServerConfig } from "./components/config";
 import { middlewares } from "./components/middlewares";
 
+import "./components/di";
+
 const dbConfig = Config.getInstance().getConfig(ConfigType.Db) as PostgresConnectionOptions;
 const serverConfig = Config.getInstance().getConfig(ConfigType.Server) as ServerConfig;
 
 const PUBLIC_PATH = path.join(__dirname, "../public");
 
+useContainer(Container);
 const app = createExpressServer({
-	controllers: [__dirname + "/controllers/*.js"],
+	controllers: [__dirname + "/application/controllers/*.js"],
 	middlewares
 });
 

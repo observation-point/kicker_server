@@ -1,9 +1,11 @@
 import { plainToClass } from "class-transformer";
+import { Service } from "typedi";
 import { getRepository } from "typeorm";
 import { User } from "../entities";
 import { UserModel } from "../models";
 
-class UserRepository {
+@Service()
+export class UserRepository {
 	public async getUser(id: string): Promise<User> {
 		return new User(await getRepository(UserModel).findOne(id));
 	}
@@ -17,5 +19,3 @@ class UserRepository {
 	}
 
 }
-
-export const userRepository = new UserRepository();
