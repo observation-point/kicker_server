@@ -1,8 +1,7 @@
-import { Body, Get, JsonController, OnUndefined, Param, Post } from "routing-controllers";
+import { Body, Get, JsonController, OnUndefined, Param, Post, Session } from "routing-controllers";
 
 import { Inject } from "typedi";
-import { GetSessionFromRequest } from "../../components/decorators/GetSessionFromRequest";
-import { Session } from "../../components/middlewares/Session";
+import { Session as ExpressSession} from "../../components/middlewares/Session";
 import { UserRepository } from "../../infrastructure/repository/UserRepository";
 import { UserResponse } from "../types";
 import { LoginParamForm } from "../validation/LoginParamForm";
@@ -17,28 +16,29 @@ export class AuthController {
 	public async login(
 		@Param("login") login: string,
 		@Body() { password }: LoginParamForm,
-		@GetSessionFromRequest() session: Session
+		@Session() session: Express.Session
 	): Promise<UserResponse> {
 		const user = await this.userRepository.getUserByLogin(login);
+
 		if (!user) {
 			throw new Error(`Now found user with ${login}`);
 		}
 		user.checkPass(password);
 
 		session.user = user.serialize();
-
+		console.log(session);
 		return UserView.makeResponse(user);
 	}
 
 	@Get("/")
 	public async isAuthorized(
-		@GetSessionFromRequest() session: Session
+		@Session() session: ExpressSession
 	): Promise<UserResponse> {
 		const isAuthorized = !!session.user;
 		if (!isAuthorized) {
-			throw new Error("is not authorize");
+			return null;
 		}
-
+		console.log(session.user);
 		return {
 			user: session.user
 		};
@@ -47,13 +47,15 @@ export class AuthController {
 	@Get("/logout")
 	@OnUndefined(204)
 	public async logout(
-		@GetSessionFromRequest() session: Session
+		@Session() session: ExpressSession
 	): Promise<void> {
 		const { user } = session;
 
 		if (user) {
-			session.user = null;
+			delete session.user;
 		}
+
+		console.log(session);
 	}
 
 }

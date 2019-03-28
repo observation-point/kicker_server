@@ -11,11 +11,15 @@ export class UserRepository {
 	}
 
 	public async getUserByLogin(login: string): Promise<User> {
-		return new User(await getRepository(UserModel).findOne({ where: { login } }));
+		const model = await getRepository(UserModel).findOne({ where: { login } });
+
+		return new User(model);
 	}
 
 	public async save(user: User): Promise<User> {
-		return new User(await getRepository(UserModel).save(plainToClass(UserModel, user)));
+		const model = await getRepository(UserModel).save(plainToClass(UserModel, user.getScheme()));
+
+		return new User(model);
 	}
 
 }

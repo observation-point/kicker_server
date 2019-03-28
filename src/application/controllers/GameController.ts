@@ -1,10 +1,9 @@
 import { Body, Get, JsonController, OnUndefined, Post, Put, UseBefore } from "routing-controllers";
 
 import { Inject } from "typedi";
-import { GetSessionFromRequest } from "../../components/decorators/GetSessionFromRequest";
+import { GetUserIdFromRequest } from "../../components/decorators/GetUserIdFromRequest";
 import { CheckAuthorize } from "../../components/middlewares/CheckAuthorize";
 import { CheckObserverToken } from "../../components/middlewares/CheckObserverToken";
-import { Session } from "../../components/middlewares/Session";
 import { Game } from "../../infrastructure/entities";
 import { GameRepository } from "../../infrastructure/repository/GameRepository";
 import { GameState } from "../../infrastructure/types";
@@ -45,10 +44,10 @@ export class GameController {
 	@Post("/")
 	@UseBefore(CheckAuthorize)
 	public async addPlayerAction(
-		@GetSessionFromRequest() session: Session,
+		@GetUserIdFromRequest() userId: string,
 		@Body() { role, side }: AddPlayerForm
 	): Promise<GameState> {
-		return this.addPlayer.execute({ role, side, userId: session.user.id });
+		return this.addPlayer.execute({ role, side, userId });
 	}
 
 }

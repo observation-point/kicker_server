@@ -4,7 +4,7 @@ import { UserAttributes } from "../../infrastructure/types";
 import { redisStore } from "../redis/redisStore";
 
 const expressSession = require("express-session");
-export interface Session {
+export interface Session extends Express.Session {
 	user: UserAttributes;
 }
 

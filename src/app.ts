@@ -9,18 +9,22 @@ import { createConnection } from "typeorm";
 
 import * as bodyParser from "body-parser";
 import { PostgresConnectionOptions } from "typeorm/driver/postgres/PostgresConnectionOptions";
-import { Config, ConfigType, DbConfig, ServerConfig } from "./components/config";
+import { Config, ConfigType, CorsConfig, ServerConfig } from "./components/config";
 import { middlewares } from "./components/middlewares";
 
 import "./components/di";
 
-const dbConfig = Config.getInstance().getConfig(ConfigType.Db) as PostgresConnectionOptions;
-const serverConfig = Config.getInstance().getConfig(ConfigType.Server) as ServerConfig;
+const configBuilder = Config.getInstance();
+
+const dbConfig = configBuilder.getConfig(ConfigType.Db) as PostgresConnectionOptions;
+const serverConfig = configBuilder.getConfig(ConfigType.Server) as ServerConfig;
+const corsConfig = configBuilder.getConfig(ConfigType.Cors) as CorsConfig;
 
 const PUBLIC_PATH = path.join(__dirname, "../public");
 
 useContainer(Container);
 const app = createExpressServer({
+	cors: corsConfig,
 	controllers: [__dirname + "/application/controllers/*.js"],
 	middlewares
 });

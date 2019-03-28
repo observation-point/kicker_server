@@ -1,10 +1,8 @@
-import { Body, JsonController, Post } from "routing-controllers";
+import { Body, JsonController, Post, Session } from "routing-controllers";
 
-import { plainToClass } from "class-transformer";
 import { Inject } from "typedi";
 import { generatePasswordHash } from "../../components/crypto";
-import { GetSessionFromRequest } from "../../components/decorators/GetSessionFromRequest";
-import { Session } from "../../components/middlewares/Session";
+import { Session as ExpressSession } from "../../components/middlewares/Session";
 import { User } from "../../infrastructure/entities";
 import { UserRepository } from "../../infrastructure/repository/UserRepository";
 import { UserResponse } from "../types";
@@ -19,15 +17,13 @@ export class UserController {
 
 	@Post("/")
 	public async createUser(
-		@GetSessionFromRequest() session: Session,
+		@Session() session: ExpressSession,
 		@Body() form: CreateUserForm
 	): Promise<UserResponse> {
 		const { password, ...data } = form;
-
 		const hashPassword = generatePasswordHash(password);
-
-		const user = await this.userRepository.save(plainToClass(User, { ...data, password: hashPassword }));
-
+		const user = new User({ ...data, password: hashPassword });
+		await this.userRepository.save(user);
 		session.user = user.serialize();
 
 		return UserView.makeResponse(user);

@@ -12,8 +12,15 @@ export class User {
 	public login: string;
 	public password: string;
 
-	public constructor(userModel: UserModel) {
-		const { id, firstName, lastName, login, password, avatar } = userModel;
+	public constructor(userModel: {
+		id: string,
+		firstName: string,
+		lastName: string,
+		login: string,
+		password: string,
+		avatar: string
+	}) {
+		const { id, firstName, lastName, login, password, avatar = "" } = userModel;
 
 		this.id = id;
 		this.firstName = firstName;
@@ -38,7 +45,17 @@ export class User {
 		const hashPassword = generatePasswordHash(password, salt);
 
 		return this.password === hashPassword;
+	}
 
+	public getScheme() {
+		return {
+			id: this.id,
+			firstName: this.firstName,
+			lastNmae: this.lastName,
+			login: this.login,
+			password: this.password,
+			avatar: this.avatar
+		};
 	}
 
 }
