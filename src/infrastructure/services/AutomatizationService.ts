@@ -1,10 +1,12 @@
 import axios from "axios";
-import { serviceConfig } from "../../config/service";
+import { Service } from "typedi";
+import { Config, ConfigType, ServicesConfig } from "../../components/config";
 
-class AutomatizationService {
+const serviceConfig = Config.getInstance().getConfig(ConfigType.Services) as ServicesConfig;
+
+@Service()
+export class AutomatizationService {
 	public async startGame(id: string): Promise<void> {
-		await axios.post(serviceConfig.auto + "/start", { gameId: id, gameRules: { goalsToWin: 10 } });
+		await axios.post(serviceConfig.observer + "/start", { gameId: id, gameRules: { goalsToWin: 10 } });
 	}
 }
-
-export const automatizationService = new AutomatizationService();

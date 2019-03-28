@@ -1,10 +1,13 @@
-import { getRepository } from "typeorm";
-import { automatizationService } from "../services/AutomatizationService";
+import { Inject, Service } from "typedi";
+import { AutomatizationService } from "../services/AutomatizationService";
 
-class GameHandlers {
+@Service()
+export class GameHandlers {
+
+	@Inject()
+	private automatizationService: AutomatizationService;
+
 	public async startGame(gameId: string): Promise<void> {
-		await automatizationService.startGame(gameId);
+		await this.automatizationService.startGame(gameId);
 	}
 }
-
-export const gameHandlers = new GameHandlers();

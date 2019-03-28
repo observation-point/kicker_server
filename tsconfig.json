@@ -9,6 +9,7 @@
         "preserveConstEnums": true,
         "sourceMap": true,
         "outDir": "dist",
+        "target": "ES2017",
         "baseUrl": ".",
     },
     "exclude": ["./node_modules", "./dist"],

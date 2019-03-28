@@ -1,33 +1,30 @@
-import { Column, Entity, OneToMany, PrimaryColumn } from "typeorm";
 import { generatePasswordHash, getSalt } from "../../components/crypto";
-import { Player } from "./Player";
-import { UserAttrib } from "./types";
+import { UserModel } from "../models";
+import { UserAttributes } from "../types";
 
-@Entity("kicker_user")
 export class User {
 
-	@PrimaryColumn()
 	public id: string;
-
-	@Column()
 	public firstName: string;
-
-	@Column()
 	public lastName: string;
-
-	@Column()
 	public avatar: string;
 
-	@OneToMany((type) => Player, (player) => player.user)
-	public players: Player[];
+	public login: string;
+	public password: string;
 
-	@Column()
-	private login: string;
+	public constructor(userModel: UserModel) {
+		const { id, firstName, lastName, login, password, avatar } = userModel;
 
-	@Column()
-	private password: string;
+		this.id = id;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.avatar = avatar;
+		this.login = login;
+		this.password = password;
 
-	public serialize(): UserAttrib {
+	}
+
+	public serialize(): UserAttributes {
 		return {
 			id: this.id,
 			firstName: this.firstName,
