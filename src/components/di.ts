@@ -4,3 +4,4 @@ import "../infrastructure/handlers/GameHandlers";
 import "../infrastructure/repository/GameRepository";
 import "../infrastructure/repository/UserRepository";
 import "../infrastructure/services/AutomatizationService";
+import "../infrastructure/services/SocketService";

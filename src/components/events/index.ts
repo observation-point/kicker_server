@@ -6,7 +6,6 @@ export const emitter = new EventEmitter();
 
 export enum EventType {
 	StartGame = "start_game",
-
 }
 
 const gameHandlers = Container.get(GameHandlers);

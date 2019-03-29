@@ -26,7 +26,7 @@ export class AuthController {
 		user.checkPass(password);
 
 		session.user = user.serialize();
-		console.log(session);
+
 		return UserView.makeResponse(user);
 	}
 
@@ -38,7 +38,7 @@ export class AuthController {
 		if (!isAuthorized) {
 			return null;
 		}
-		console.log(session.user);
+
 		return {
 			user: session.user
 		};
@@ -54,8 +54,6 @@ export class AuthController {
 		if (user) {
 			delete session.user;
 		}
-
-		console.log(session);
 	}
 
 }

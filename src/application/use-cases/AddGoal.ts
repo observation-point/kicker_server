@@ -3,6 +3,7 @@ import { Game, Goal } from "../../infrastructure/entities";
 import { GameRepository } from "../../infrastructure/repository/GameRepository";
 import { GameStatus, Role, Side } from "../../infrastructure/types";
 import { GameStats, Goal as GoalData } from "../types";
+import { SocketService } from "../../infrastructure/services/SocketService";
 
 export interface AddPlayerParams { role: Role; side: Side; userId: string; }
 
@@ -10,6 +11,9 @@ export interface AddPlayerParams { role: Role; side: Side; userId: string; }
 export class AddGoal {
 	@Inject()
 	private gameRepository: GameRepository;
+
+	@Inject()
+	private socketService: SocketService;
 
 	public async execute({ id, goals, status }: GameStats): Promise<void> {
 		const game = Game.getInstance();
@@ -26,6 +30,8 @@ export class AddGoal {
 			await this.complete(game);
 			await this.createNewGame(game);
 		}
+
+		this.socketService.emit("updated_game", game.getState());
 	}
 
 	protected checkGameId(id: string, game: Game) {

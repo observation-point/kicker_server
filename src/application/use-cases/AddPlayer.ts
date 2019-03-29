@@ -3,6 +3,7 @@ import { Game, Player } from "../../infrastructure/entities";
 import { GameRepository } from "../../infrastructure/repository/GameRepository";
 import { UserRepository } from "../../infrastructure/repository/UserRepository";
 import { GameState, GameStatus, Role, Side } from "../../infrastructure/types";
+import { SocketService } from "../../infrastructure/services/SocketService";
 
 export interface AddPlayerParams { role: Role; side: Side; userId: string; }
 
@@ -12,6 +13,9 @@ export class AddPlayer {
 	private gameRepository: GameRepository;
 	@Inject()
 	private userRepository: UserRepository;
+	@Inject()
+	private socketService: SocketService
+	
 	public async execute({ role, side, userId }: AddPlayerParams): Promise<GameState> {
 
 		const game = Game.getInstance();
@@ -31,6 +35,7 @@ export class AddPlayer {
 		await this.gameRepository.savePlayer(player);
 		game.addPlayer(player);
 
+		this.socketService.emit("updated_game", game.getState());
 		return game.getState();
 
 	}

@@ -5,8 +5,7 @@ import { Request } from "./Session";
 export class CheckAuthorize implements ExpressMiddlewareInterface {
 
 	public use(req: Request, res: Response, next: NextFunction) {
-		// console.log(process.env.KICKER_ENV);
-		if (!req.session.user) { // && process.env.KICKER_ENV !== "dev") {
+		if (!req.session.user) {
 			throw new Error("not authorize");
 		}
 		next();
