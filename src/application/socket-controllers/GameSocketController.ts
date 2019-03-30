@@ -18,7 +18,7 @@ export class MessageController {
     async connection(@ConnectedSocket() socket: any) {
         console.log("client connected");
 
-        this.socketService.setSocket(socket);
+        this.socketService.addSocket(socket);
         const game = Game.getInstance();
         await this.gameRepository.save(game);
         this.socketService.emit("updated_game", game.getState());

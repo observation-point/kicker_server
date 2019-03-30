@@ -2,13 +2,13 @@ import { Service } from "typedi";
 
 @Service()
 export class SocketService {
-    public socket: any;
+	public sockets: any[] = [];
 
-    public setSocket(socket: any) {
-        this.socket = socket;
-    }
+	public addSocket(socket: any) {
+		this.sockets.push(socket);
+	}
 
-    public emit(type: string, data: any) {
-        this.socket.emit(type, data);
-    }
+	public emit(type: string, data: any) {
+		this.sockets.forEach(item => item.emit(type, data));
+	}
 }

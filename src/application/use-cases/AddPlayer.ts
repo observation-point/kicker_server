@@ -19,7 +19,7 @@ export class AddPlayer {
 	public async execute({ role, side, userId }: AddPlayerParams): Promise<GameState> {
 
 		const game = Game.getInstance();
-
+		await this.gameRepository.save(game);
 		if (game.status !== GameStatus.READY) {
 			throw new Error("lobby is full");
 		}

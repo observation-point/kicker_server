@@ -11,7 +11,7 @@
     "build-dev": "tsc --watch",
     "prestart": "npm run build",
     "start": "node ./dist/app",
-    "start-dev": "nodemon ./dist/app",
+    "start-dev": "KICKER_ENV=dev nodemon ./dist/app",
     "migrate": "node ./dist/bin/dbConfig > ormconfig.json && node ./node_modules/typeorm/cli migration:run",
     "migrate-undo": "node ./dist/bin/dbConfig > ormconfig.json && node ./node_modules/typeorm/cli migration:revert",
     "deploy": "pm2 deploy ecosystem.json prod"

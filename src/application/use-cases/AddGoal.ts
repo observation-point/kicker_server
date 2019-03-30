@@ -17,7 +17,7 @@ export class AddGoal {
 
 	public async execute({ id, goals, status }: GameStats): Promise<void> {
 		const game = Game.getInstance();
-
+		await this.gameRepository.save(game);
 		this.checkGameId(id, game);
 		this.checkGameStatus(game);
 
