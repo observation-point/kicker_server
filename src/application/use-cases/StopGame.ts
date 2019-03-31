@@ -22,7 +22,7 @@ export class StopGame {
 		try {
 			await this.automatizationService.stopGame(game.id);
 		} catch (error) {
-			console.log("game is already stopped");
+			console.log("game not started or already stopped");
 		}
 
 		game.reset();
