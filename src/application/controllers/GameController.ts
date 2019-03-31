@@ -11,6 +11,7 @@ import { GameStats } from "../types";
 import { AddGoal } from "../use-cases/AddGoal";
 import { AddPlayer } from "../use-cases/AddPlayer";
 import { AddPlayerForm } from "../validation/AddPlayerForm";
+import { StopGame } from "../use-cases/StopGame";
 
 @JsonController("/api/game")
 export class GameController {
@@ -23,6 +24,9 @@ export class GameController {
 
 	@Inject()
 	private addPlayer: AddPlayer;
+
+	@Inject()
+	private stopGame: StopGame;
 
 	@Get("/")
 	public async getState(): Promise<GameState> {
@@ -48,6 +52,12 @@ export class GameController {
 		@Body() { role, side }: AddPlayerForm
 	): Promise<GameState> {
 		return this.addPlayer.execute({ role, side, userId });
+	}
+
+	@Post('/stop')
+	@OnUndefined(204)
+	public async stopGameAction(): Promise<void> {
+		await this.stopGame.execute();
 	}
 
 }
