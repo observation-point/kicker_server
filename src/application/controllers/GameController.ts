@@ -10,8 +10,8 @@ import { GameState } from "../../infrastructure/types";
 import { GameStats } from "../types";
 import { AddGoal } from "../use-cases/AddGoal";
 import { AddPlayer } from "../use-cases/AddPlayer";
-import { AddPlayerForm } from "../validation/AddPlayerForm";
 import { StopGame } from "../use-cases/StopGame";
+import { AddPlayerForm } from "../validation/AddPlayerForm";
 
 @JsonController("/api/game")
 export class GameController {
@@ -54,7 +54,7 @@ export class GameController {
 		return this.addPlayer.execute({ role, side, userId });
 	}
 
-	@Post('/stop')
+	@Post("/stop")
 	@OnUndefined(204)
 	public async stopGameAction(): Promise<void> {
 		await this.stopGame.execute();

@@ -1,13 +1,12 @@
 import "reflect-metadata";
 
+import * as bodyParser from "body-parser";
 import * as morgan from "morgan";
 import { createExpressServer, useContainer } from "routing-controllers";
-import { useContainer as useContainerSocket, createSocketServer } from 'socket-controllers';
+import { createSocketServer, useContainer as useContainerSocket } from "socket-controllers";
 import { Container } from "typedi";
 import { createConnection } from "typeorm";
-import * as bodyParser from "body-parser";
 import { PostgresConnectionOptions } from "typeorm/driver/postgres/PostgresConnectionOptions";
-
 
 import { Config, ConfigType, CorsConfig, ServerConfig } from "./components/config";
 import { middlewares } from "./components/middlewares";

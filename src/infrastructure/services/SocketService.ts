@@ -9,6 +9,6 @@ export class SocketService {
 	}
 
 	public emit(type: string, data: any) {
-		this.sockets.forEach(item => item.emit(type, data));
+		this.sockets.forEach((item) => item.emit(type, data));
 	}
 }

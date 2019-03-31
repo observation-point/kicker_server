@@ -1,9 +1,9 @@
 import { Inject, Service } from "typedi";
 import { Game, Goal } from "../../infrastructure/entities";
 import { GameRepository } from "../../infrastructure/repository/GameRepository";
+import { SocketService } from "../../infrastructure/services/SocketService";
 import { GameStatus, Role, Side } from "../../infrastructure/types";
 import { GameStats, Goal as GoalData } from "../types";
-import { SocketService } from "../../infrastructure/services/SocketService";
 
 export interface AddPlayerParams { role: Role; side: Side; userId: string; }
 

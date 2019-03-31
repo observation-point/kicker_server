@@ -1,33 +1,31 @@
-import { SocketController, ConnectedSocket, OnConnect, OnDisconnect, OnMessage, MessageBody } from "socket-controllers";
-import { Game } from "../../infrastructure/entities";
+import { ConnectedSocket, OnConnect, OnDisconnect, SocketController } from "socket-controllers";
 import { Inject } from "typedi";
+import { Game } from "../../infrastructure/entities";
 import { GameRepository } from "../../infrastructure/repository/GameRepository";
 import { SocketService } from "../../infrastructure/services/SocketService";
-
 
 @SocketController()
 export class MessageController {
 
-    @Inject()
-    private gameRepository: GameRepository;
-    
-    @Inject()
-    private socketService: SocketService
+	@Inject()
+	private gameRepository: GameRepository;
 
-    @OnConnect()
-    async connection(@ConnectedSocket() socket: any) {
-        console.log("client connected");
+	@Inject()
+	private socketService: SocketService;
 
-        this.socketService.addSocket(socket);
-        const game = Game.getInstance();
-        await this.gameRepository.save(game);
-        this.socketService.emit("updated_game", game.getState());
-    }
+	@OnConnect()
+	public async connection(@ConnectedSocket() socket: any) {
+		console.log("client connected");
 
-    @OnDisconnect()
-    disconnect(@ConnectedSocket() socket: any) {
-        console.log("client disconnected");
-    }
+		this.socketService.addSocket(socket);
+		const game = Game.getInstance();
+		await this.gameRepository.save(game);
+		this.socketService.emit("updated_game", game.getState());
+	}
 
+	@OnDisconnect()
+	public disconnect(@ConnectedSocket() socket: any) {
+		console.log("client disconnected");
+	}
 
 }

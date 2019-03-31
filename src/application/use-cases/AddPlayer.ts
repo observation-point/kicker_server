@@ -2,8 +2,8 @@ import { Inject, Service } from "typedi";
 import { Game, Player } from "../../infrastructure/entities";
 import { GameRepository } from "../../infrastructure/repository/GameRepository";
 import { UserRepository } from "../../infrastructure/repository/UserRepository";
-import { GameState, GameStatus, Role, Side } from "../../infrastructure/types";
 import { SocketService } from "../../infrastructure/services/SocketService";
+import { GameState, GameStatus, Role, Side } from "../../infrastructure/types";
 
 export interface AddPlayerParams { role: Role; side: Side; userId: string; }
 
@@ -14,8 +14,8 @@ export class AddPlayer {
 	@Inject()
 	private userRepository: UserRepository;
 	@Inject()
-	private socketService: SocketService
-	
+	private socketService: SocketService;
+
 	public async execute({ role, side, userId }: AddPlayerParams): Promise<GameState> {
 
 		const game = Game.getInstance();
