@@ -19,7 +19,7 @@ export class MessageController {
 
 		this.socketService.addSocket(socket);
 		const game = Game.getInstance();
-		await this.gameRepository.save(game);
+
 		this.socketService.emit("updated_game", game.getState());
 	}
 
