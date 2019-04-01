@@ -18,8 +18,7 @@ export class StopGame {
 	public async execute(userId: string): Promise<void> {
 		const game = Game.getInstance();
 		const playerUsers = game.players.map((item) => item.user.id);
-		console.log("already players: ", playerUsers);
-		console.log("user stopping the game", userId);
+
 		if (!playerUsers.includes(userId)) {
 			throw new Error("you can' stop playin without being a player");
 		}
