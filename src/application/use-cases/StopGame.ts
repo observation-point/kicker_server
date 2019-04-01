@@ -17,10 +17,10 @@ export class StopGame {
 
 	public async execute(userId: string): Promise<void> {
 		const game = Game.getInstance();
-		const playerUsers = game.players.map(item => item.user.id);
+		const playerUsers = game.players.map((item) => item.user.id);
 
 		if (!playerUsers.includes(userId)) {
-			throw new Error('you can\' stop playin without being a player');
+			throw new Error("you can' stop playin without being a player");
 		}
 		try {
 			await this.automatizationService.stopGame(game.id);

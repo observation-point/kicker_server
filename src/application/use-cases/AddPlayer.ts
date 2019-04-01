@@ -20,10 +20,10 @@ export class AddPlayer {
 
 		const game = Game.getInstance();
 
-		const playerUsers = game.players.map(item => item.user.id);
+		const playerUsers = game.players.map((item) => item.user.id);
 
 		if (playerUsers.includes(userId)) {
-			throw new Error('you are already a player in this game');
+			throw new Error("you are already a player in this game");
 		}
 
 		await this.gameRepository.save(game);
