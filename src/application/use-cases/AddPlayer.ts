@@ -19,6 +19,13 @@ export class AddPlayer {
 	public async execute({ role, side, userId }: AddPlayerParams): Promise<GameState> {
 
 		const game = Game.getInstance();
+
+		const playerUsers = game.players.map(item => item.user.id);
+
+		if (playerUsers.includes(userId)) {
+			throw new Error('you are already a player in this game');
+		}
+
 		await this.gameRepository.save(game);
 		if (game.status !== GameStatus.READY) {
 			throw new Error("lobby is full");

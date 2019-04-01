@@ -15,8 +15,13 @@ export class StopGame {
 	@Inject()
 	private socketService: SocketService;
 
-	public async execute(): Promise<void> {
+	public async execute(userId: string): Promise<void> {
 		const game = Game.getInstance();
+		const playerUsers = game.players.map(item => item.user.id);
+
+		if (!playerUsers.includes(userId)) {
+			throw new Error('you can\' stop playin without being a player');
+		}
 		try {
 			await this.automatizationService.stopGame(game.id);
 		} catch (error) {

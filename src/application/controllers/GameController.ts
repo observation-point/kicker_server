@@ -56,8 +56,10 @@ export class GameController {
 
 	@Post("/stop")
 	@OnUndefined(204)
-	public async stopGameAction(): Promise<void> {
-		await this.stopGame.execute();
+	public async stopGameAction(
+		@GetUserIdFromRequest() userId: string
+	): Promise<void> {
+		await this.stopGame.execute(userId);
 	}
 
 }
