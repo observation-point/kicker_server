@@ -19,7 +19,7 @@ export class StopGame {
 		const game = Game.getInstance();
 		const playerUsers = game.players.map((item) => item.user.id);
 		console.log("already players: ", playerUsers);
-		console.log("user stopping the game");
+		console.log("user stopping the game", userId);
 		if (!playerUsers.includes(userId)) {
 			throw new Error("you can' stop playin without being a player");
 		}
