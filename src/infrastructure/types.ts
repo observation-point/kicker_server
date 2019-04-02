@@ -17,6 +17,7 @@ export interface GameState {
 		time: Date
 	}>;
 	status: GameStatus;
+	startGame: Date;
 }
 
 export enum Role {

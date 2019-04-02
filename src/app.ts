@@ -37,11 +37,11 @@ async function startServer() {
 	const connection = await createConnection(dbConfig);
 
 	app.listen(serverConfig, () => {
-		console.log(`\nServer started at http://${serverConfig.host}:${serverConfig.port}`);
+		console.info(`\nServer started at http://${serverConfig.host}:${serverConfig.port}`);
 
 		connection.isConnected ?
-			console.log("DB is connected\n") :
-			console.log("DB isn't connected\n");
+			console.info("DB is connected\n") :
+			console.info("DB isn't connected\n");
 	});
 
 }

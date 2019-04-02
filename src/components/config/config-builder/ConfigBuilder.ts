@@ -57,7 +57,7 @@ export class ConfigBuilder {
 		if (!env) {
 			throw new Error(this.ENV_ERROR_STRING);
 		}
-		console.log("[DEBUG] ENV: " + env);
+		console.info("[DEBUG] ENV: " + env);
 		this.baseConfigs.forEach((config) => {
 			this.createLocalConfig(config, env);
 		});
@@ -87,9 +87,9 @@ export class ConfigBuilder {
 			throw new Error(this.ENV_ERROR_STRING);
 		}
 		this.baseConfigs.forEach((configFile) => {
-			console.log(`======= ${configFile.name} =======`);
+			console.info(`======= ${configFile.name} =======`);
 			const config = this.getConfig(configFile.name, env);
-			console.log(JSON.stringify(config, null, 4));
+			console.info(JSON.stringify(config, null, 4));
 		});
 	}
 

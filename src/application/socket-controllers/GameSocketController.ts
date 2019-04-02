@@ -15,7 +15,7 @@ export class MessageController {
 
 	@OnConnect()
 	public async connection(@ConnectedSocket() socket: any) {
-		console.log("client connected");
+		console.info("client connected");
 
 		this.socketService.addSocket(socket);
 		const game = Game.getInstance();
@@ -25,7 +25,7 @@ export class MessageController {
 
 	@OnDisconnect()
 	public disconnect(@ConnectedSocket() socket: any) {
-		console.log("client disconnected");
+		console.info("client disconnected");
 	}
 
 }

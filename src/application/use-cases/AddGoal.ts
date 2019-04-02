@@ -28,6 +28,8 @@ export class AddGoal {
 
 		if (status === GameStatus.FINISHED) {
 			await this.complete(game);
+			this.socketService.emit("updated_game", game.getState());
+
 			await this.createNewGame(game);
 		}
 

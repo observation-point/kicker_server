@@ -33,6 +33,7 @@ export class GameController {
 		const game = Game.getInstance();
 
 		await this.gameRepository.save(game);
+
 		return game.getState();
 	}
 

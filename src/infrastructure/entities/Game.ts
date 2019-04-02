@@ -54,7 +54,8 @@ export class Game {
 					time: item.time
 				};
 			}) : [],
-			status: this.status
+			status: this.status,
+			startGame: this.startGame
 		};
 	}
 
@@ -90,5 +91,6 @@ export class Game {
 		this.status = GameStatus.READY;
 		this.players = [];
 		this.goals = [];
+		this.startGame = undefined;
 	}
 }
