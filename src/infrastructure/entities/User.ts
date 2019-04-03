@@ -1,5 +1,4 @@
 import { generatePasswordHash, getSalt } from "../../components/crypto";
-import { UserModel } from "../models";
 import { UserAttributes } from "../types";
 
 export class User {
@@ -8,6 +7,7 @@ export class User {
 	public firstName: string;
 	public lastName: string;
 	public avatar: string;
+	public rating: number;
 
 	public login: string;
 	public password: string;
@@ -16,9 +16,9 @@ export class User {
 		id: string,
 		firstName: string,
 		lastName: string,
+		avatar: string,
 		login: string,
-		password: string,
-		avatar: string
+		password: string
 	}) {
 		const { id, firstName, lastName, login, password, avatar = "" } = userModel;
 
@@ -28,7 +28,6 @@ export class User {
 		this.avatar = avatar;
 		this.login = login;
 		this.password = password;
-
 	}
 
 	public serialize(): UserAttributes {
@@ -36,7 +35,8 @@ export class User {
 			id: this.id,
 			firstName: this.firstName,
 			lastName: this.lastName,
-			avatar: this.avatar
+			avatar: this.avatar,
+			rating: this.rating
 		};
 	}
 
@@ -52,10 +52,14 @@ export class User {
 			id: this.id,
 			firstName: this.firstName,
 			lastNmae: this.lastName,
+			avatar: this.avatar,
+			rating: this.rating,
 			login: this.login,
-			password: this.password,
-			avatar: this.avatar
+			password: this.password
 		};
 	}
 
+	public changeRating(newRating: number) {
+		this.rating = newRating;
+	}
 }

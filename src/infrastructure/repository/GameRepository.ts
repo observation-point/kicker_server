@@ -1,17 +1,16 @@
 import { plainToClass } from "class-transformer";
 import { Service } from "typedi";
-import { getRepository } from "typeorm";
+import { FindManyOptions, getRepository } from "typeorm";
 import { Game, Goal, Player } from "../entities";
 import { GameModel, GoalModel, PlayerModel } from "../models";
 
 @Service()
 export class GameRepository {
 	public async getGameById(id: string): Promise<Game> {
-		return getRepository(Game).findOne(id);
+		return await getRepository(Game).findOne(id);
 	}
 
 	public async save(game: Game): Promise<void> {
-
 		await getRepository(GameModel).save(plainToClass(GameModel, game.getScheme()));
 	}
 

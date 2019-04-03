@@ -5,6 +5,8 @@ import { SocketService } from "../../infrastructure/services/SocketService";
 import { GameStatus, Role, Side } from "../../infrastructure/types";
 import { GameStats, Goal as GoalData } from "../types";
 
+import { CalculateRatings } from "./CalculateRatings";
+
 export interface AddPlayerParams { role: Role; side: Side; userId: string; }
 
 @Service()
@@ -14,6 +16,12 @@ export class AddGoal {
 
 	@Inject()
 	private socketService: SocketService;
+
+	private ratingCalculator: CalculateRatings;
+
+	constructor() {
+		this.ratingCalculator = new CalculateRatings();
+	}
 
 	public async execute({ id, goals, status }: GameStats): Promise<void> {
 		const game = Game.getInstance();
@@ -66,6 +74,7 @@ export class AddGoal {
 		game.status = GameStatus.FINISHED;
 		game.endGame = new Date();
 		await this.gameRepository.save(game);
+		await this.ratingCalculator.execute(game);
 	}
 
 	protected async createNewGame(game: Game): Promise<void> {

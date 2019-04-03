@@ -3,6 +3,7 @@ export interface UserAttributes {
 	firstName: string;
 	lastName: string;
 	avatar: string;
+	rating: number;
 }
 
 export interface GameState {
@@ -35,4 +36,4 @@ export enum GameStatus {
 	INPROCESS = "inprocess",
 	PAUSED = "paused",
 	FINISHED = "finished"
-  }
+}

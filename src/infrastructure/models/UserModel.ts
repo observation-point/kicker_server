@@ -1,6 +1,4 @@
 import { Column, Entity, OneToMany, PrimaryColumn } from "typeorm";
-import { generatePasswordHash, getSalt } from "../../components/crypto";
-import { UserAttributes } from "../types";
 import { PlayerModel } from "./PlayerModel";
 
 @Entity("kicker_user")
@@ -17,6 +15,9 @@ export class UserModel {
 
 	@Column()
 	public avatar: string;
+
+	@Column()
+	public rating: number;
 
 	@Column()
 	public login: string;
