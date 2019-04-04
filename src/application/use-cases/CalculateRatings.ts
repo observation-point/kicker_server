@@ -1,10 +1,13 @@
 import { Inject, Service } from "typedi";
 import { Game, Goal, Player, User } from "../../infrastructure/entities";
+import { GameRepository } from "../../infrastructure/repository/GameRepository";
 import { UserRepository } from "../../infrastructure/repository/UserRepository";
-import { Side } from "../../infrastructure/types";
+import { Role, Side } from "../../infrastructure/types";
 
 @Service()
 export class CalculateRatings {
+	@Inject()
+	private gameRespository: GameRepository;
 	@Inject()
 	private userRepository: UserRepository;
 
@@ -33,8 +36,13 @@ export class CalculateRatings {
 		const avgRatingLossers = this.calculateAvgTeamRating(ratingsOfLossers); // 1500
 
 		const ratingDelta = this.getRatingDelta(avgRatingWinners, avgRatingLossers); // 3
-		usersWinners.forEach((user) => user.changeRating(user.rating + ratingDelta)); // [2003, 1803]
-		usersLosssers.forEach((user) => user.changeRating(user.rating - ratingDelta)); // [1397, 1597]
+
+		usersWinners.forEach(async (user, index) =>
+			user.changeRating(user.rating + await this.adjustDeltaByRole(user.id, playersWinners[index].role, ratingDelta)));
+
+		usersLosssers.forEach(async (user, index) =>
+			user.changeRating(user.rating - await this.adjustDeltaByRole(user.id, playersLossers[index].role, ratingDelta)));
+
 		[...usersWinners, ...usersLosssers].forEach(async (user) => await this.userRepository.save(user));
 	}
 
@@ -51,5 +59,17 @@ export class CalculateRatings {
 	private getRatingDelta(firstRating: number, secondRating: number): number {
 		const chanceToWin = 1 / ( 1 + Math.pow(10, (firstRating - secondRating) / 400));
 		return Math.round(32 * chanceToWin);
-  }
+	}
+
+	private async adjustDeltaByRole(userId: string, role: Role, delta: number): Promise<number> {
+		const userAtackWinsCount = this.gameRespository.getAtackWinsCount(userId, Role.Attack);
+		const userDefenceWinsCount = this.gameRespository.getDefenceWinsCount(userId, Role.Defense);
+		let adjustedDelta: number;
+		if (role === Role.Attack) {
+			adjustedDelta = Math.round(delta * (userDefenceWinsCount / userAtackWinsCount));
+		} else {
+			adjustedDelta = Math.round(delta * (userAtackWinsCount / userDefenceWinsCount));
+		}
+		return adjustedDelta;
+	}
 }
