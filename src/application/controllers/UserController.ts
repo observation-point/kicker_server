@@ -22,7 +22,7 @@ export class UserController {
 	): Promise<UserResponse> {
 		const { password, ...data } = form;
 		const hashPassword = generatePasswordHash(password);
-		const user = new User({ ...data, password: hashPassword });
+		const user = new User({ ...data, password: hashPassword, rating: 1500 });
 		await this.userRepository.save(user);
 		session.user = user.serialize();
 

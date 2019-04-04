@@ -17,15 +17,17 @@ export class User {
 		firstName: string,
 		lastName: string,
 		avatar: string,
+		rating: number,
 		login: string,
 		password: string
 	}) {
-		const { id, firstName, lastName, login, password, avatar = "" } = userModel;
+		const { id, firstName, lastName, login, password, avatar = "", rating } = userModel;
 
 		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.avatar = avatar;
+		this.rating = rating;
 		this.login = login;
 		this.password = password;
 	}
