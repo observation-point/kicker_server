@@ -44,7 +44,7 @@ export class CalculateRatings {
 		});
 
 		usersLosssers.forEach(async (user, index) => {
-			const newRating = user.rating + await this.adjustDeltaByRole(user.id, playersLossers[index].role, true, ratingDelta);
+			const newRating = user.rating - await this.adjustDeltaByRole(user.id, playersLossers[index].role, true, ratingDelta);
 			user.changeRating(newRating);
 			await this.userRepository.save(user);
 		});
