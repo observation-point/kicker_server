@@ -37,19 +37,17 @@ export class CalculateRatings {
 
 		const ratingDelta = this.calculateRatingDelta(avgRatingWinners, avgRatingLossers); // 3
 
-		usersWinners.forEach(async (user, index) =>
-			user.changeRating(
-				user.rating + (await this.adjustDeltaByRole(user.id, playersWinners[index].role, true, ratingDelta))
-			)
-		);
+		usersWinners.forEach(async (user, index) => {
+			const newRating = user.rating + await this.adjustDeltaByRole(user.id, playersWinners[index].role, true, ratingDelta);
+			user.changeRating(newRating);
+			await this.userRepository.save(user);
+		});
 
-		usersLosssers.forEach(async (user, index) =>
-			user.changeRating(
-				user.rating - (await this.adjustDeltaByRole(user.id, playersLossers[index].role, false, ratingDelta))
-			)
-		);
-
-		[...usersWinners, ...usersLosssers].forEach(async (user) => await this.userRepository.save(user));
+		usersLosssers.forEach(async (user, index) => {
+			const newRating = user.rating + await this.adjustDeltaByRole(user.id, playersWinners[index].role, true, ratingDelta);
+			user.changeRating(newRating);
+			await this.userRepository.save(user);
+		});
 	}
 
 	private async getUsersByPlayerList(playerList: Player[]): Promise<User[]> {
@@ -78,6 +76,7 @@ export class CalculateRatings {
 				delta * (isWinner ? userAtackWinsCount / userDefenceWinsCount : userDefenceWinsCount / userAtackWinsCount)
 			);
 		}
+		console.log("addjusted delta", userId, role, isWinner, adjustedDelta);
 		return adjustedDelta;
 	}
 }
