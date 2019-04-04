@@ -17,11 +17,8 @@ export class AddGoal {
 	@Inject()
 	private socketService: SocketService;
 
+	@Inject()
 	private ratingCalculator: CalculateRatings;
-
-	constructor() {
-		this.ratingCalculator = new CalculateRatings();
-	}
 
 	public async execute({ id, goals, status }: GameStats): Promise<void> {
 		const game = Game.getInstance();
