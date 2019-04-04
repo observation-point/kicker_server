@@ -76,7 +76,6 @@ export class CalculateRatings {
 				delta * (isWinner ? userAtackWinsCount / userDefenceWinsCount : userDefenceWinsCount / userAtackWinsCount)
 			);
 		}
-		console.log("addjusted delta", userId, role, isWinner, adjustedDelta);
 		return adjustedDelta;
 	}
 }
