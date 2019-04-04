@@ -35,7 +35,7 @@ export class CalculateRatings {
 		const avgRatingWinners = this.calculateAvgTeamRating(ratingsOfWinners); // 1900
 		const avgRatingLossers = this.calculateAvgTeamRating(ratingsOfLossers); // 1500
 
-		const ratingDelta = this.getRatingDelta(avgRatingWinners, avgRatingLossers); // 3
+		const ratingDelta = this.calculateRatingDelta(avgRatingWinners, avgRatingLossers); // 3
 
 		usersWinners.forEach(async (user, index) =>
 			user.changeRating(
@@ -62,7 +62,7 @@ export class CalculateRatings {
 		return Math.round(ratings.reduce(( prev, current ) => prev + current, 0 ) / ratings.length);
 	}
 
-	private getRatingDelta(firstRating: number, secondRating: number): number {
+	private calculateRatingDelta(firstRating: number, secondRating: number): number {
 		const chanceToWin = 1 / ( 1 + Math.pow(10, (firstRating - secondRating) / 400));
 		return Math.round(32 * chanceToWin);
 	}
