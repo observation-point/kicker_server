@@ -38,13 +38,13 @@ export class CalculateRatings {
 		const ratingDelta = this.calculateRatingDelta(avgRatingWinners, avgRatingLossers); // 3
 
 		usersWinners.forEach(async (user, index) => {
-			const newRating = user.rating + await this.adjustDeltaByRole(user.id, playersWinners[index].role, true, ratingDelta);
+			const newRating = user.rating + await this.adjustDelta(user.id, playersWinners[index].role, true, ratingDelta);
 			user.changeRating(newRating);
 			await this.userRepository.save(user);
 		});
 
 		usersLosssers.forEach(async (user, index) => {
-			const newRating = user.rating - await this.adjustDeltaByRole(user.id, playersLossers[index].role, true, ratingDelta);
+			const newRating = user.rating - await this.adjustDelta(user.id, playersLossers[index].role, false, ratingDelta);
 			user.changeRating(newRating);
 			await this.userRepository.save(user);
 		});
@@ -63,7 +63,7 @@ export class CalculateRatings {
 		return Math.round(32 * chanceToWin);
 	}
 
-	private async adjustDeltaByRole(userId: string, role: Role, isWinner: boolean, delta: number): Promise<number> {
+	private async adjustDelta(userId: string, role: Role, isWinner: boolean, delta: number): Promise<number> {
 		const userAtackWinsCount = (await this.gameRespository.getWinCount(userId, Role.Attack)) || 1;
 		const userDefenceWinsCount = (await this.gameRespository.getWinCount(userId, Role.Defense)) || 1;
 		let adjustedDelta: number;
