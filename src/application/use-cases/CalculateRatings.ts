@@ -8,9 +8,9 @@ export class CalculateRatings {
 	@Inject()
 	private userRepository: UserRepository;
 
-	public async execute(game: Game) {
+	public async execute(game: Game): Promise<void> {
 		const redGoalsCount = game.goals.filter((goal: Goal) => goal.side === Side.RED).length;
-		const blackGoalsCount = game.goals.filter((goal: Goal) => goal.side === Side.RED).length;
+		const blackGoalsCount = game.goals.filter((goal: Goal) => goal.side === Side.BLACK).length;
 		let teamWinner: Side;
 		let teamLosser: Side;
 		if (redGoalsCount > blackGoalsCount) {
