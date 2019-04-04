@@ -1,7 +1,7 @@
 import axios from "axios";
+import { HttpError } from "routing-controllers";
 import { Service } from "typedi";
 import { Config, ConfigType, ServicesConfig } from "../../components/config";
-import { HttpError } from "routing-controllers";
 
 const serviceConfig = Config.getInstance().getConfig(ConfigType.Services) as ServicesConfig;
 
@@ -25,6 +25,6 @@ export class AutomatizationService {
 	private parseError(error: any): string {
 		const message: string = error.response.data.message;
 
-		return message.split(' ')[2];
+		return message.split(" ")[2];
 	}
 }

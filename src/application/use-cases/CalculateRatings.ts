@@ -53,7 +53,7 @@ export class CalculateRatings {
 	}
 
 	private async getUsersByPlayerList(playerList: Player[]): Promise<User[]> {
-		return Promise.all(playerList.map(player => this.userRepository.getUser(player.user.id)));
+		return Promise.all(playerList.map((player) => this.userRepository.getUser(player.user.id)));
 	}
 
 	private calculateAvgTeamRating(ratings: number[]): number {
