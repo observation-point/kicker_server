@@ -6,6 +6,7 @@ import { GameStatus, Role, Side } from "../../infrastructure/types";
 import { GameStats, Goal as GoalData } from "../types";
 
 import { CalculateRatings } from "./CalculateRatings";
+import { ForbiddenError } from "../../components/http-error";
 
 export interface AddPlayerParams { role: Role; side: Side; userId: string; }
 
@@ -43,13 +44,13 @@ export class AddGoal {
 
 	protected checkGameId(id: string, game: Game) {
 		if (id !== game.id) {
-			throw new Error("invalid game");
+			throw new ForbiddenError("invalid game");
 		}
 	}
 
 	protected checkGameStatus(game: Game) {
 		if (game.status !== GameStatus.INPROCESS) {
-			throw new Error("update count is possible only with process game status");
+			throw new ForbiddenError("update count is possible only with process game status");
 		}
 	}
 

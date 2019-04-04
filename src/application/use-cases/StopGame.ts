@@ -3,6 +3,7 @@ import { Game } from "../../infrastructure/entities";
 import { GameRepository } from "../../infrastructure/repository/GameRepository";
 import { AutomatizationService } from "../../infrastructure/services/AutomatizationService";
 import { SocketService } from "../../infrastructure/services/SocketService";
+import { PermissionDeniedError } from "../../components/http-error";
 
 @Service()
 export class StopGame {
@@ -20,7 +21,7 @@ export class StopGame {
 		const playerUsers = game.players.map((item) => item.user.id);
 
 		if (!playerUsers.includes(userId)) {
-			throw new Error("you can' stop playin without being a player");
+			throw new PermissionDeniedError("you can' stop playin without being a player");
 		}
 		try {
 			await this.automatizationService.stopGame(game.id);

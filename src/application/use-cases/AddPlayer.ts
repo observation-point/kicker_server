@@ -4,6 +4,7 @@ import { GameRepository } from "../../infrastructure/repository/GameRepository";
 import { UserRepository } from "../../infrastructure/repository/UserRepository";
 import { SocketService } from "../../infrastructure/services/SocketService";
 import { GameState, GameStatus, Role, Side } from "../../infrastructure/types";
+import { ForbiddenError } from "../../components/http-error";
 
 export interface AddPlayerParams { role: Role; side: Side; userId: string; }
 
@@ -23,12 +24,12 @@ export class AddPlayer {
 		const playerUsers = game.players.map((item) => item.user.id);
 
 		if (playerUsers.includes(userId)) {
-			throw new Error("you are already a player in this game");
+			throw new ForbiddenError("you are already a player in this game");
 		}
 
 		await this.gameRepository.save(game);
 		if (game.status !== GameStatus.READY) {
-			throw new Error("lobby is full");
+			throw new ForbiddenError("lobby is full");
 		}
 
 		const user = await this.userRepository.getUser(userId);

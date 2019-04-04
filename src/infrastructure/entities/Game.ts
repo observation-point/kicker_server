@@ -3,6 +3,7 @@ import { emitter, EventType } from "../../components/events";
 import { GameState, GameStatus, Side } from "../types";
 import { Goal } from "./Goal";
 import { Player } from "./Player";
+import { ForbiddenError } from "../../components/http-error";
 
 export class Game {
 
@@ -61,7 +62,7 @@ export class Game {
 
 	public addPlayer(player: Player) {
 		if (this.players.find((item) => item.role === player.role && item.side === player.side)) {
-			throw new Error("this place is already taken");
+			throw new ForbiddenError("this place is already taken");
 		}
 
 		this.players.push(player);

@@ -3,11 +3,16 @@ import { Service } from "typedi";
 import { getRepository } from "typeorm";
 import { User } from "../entities";
 import { UserModel } from "../models";
+import { NotFoundError } from "../../components/http-error";
 
 @Service()
 export class UserRepository {
 	public async getUser(id: string): Promise<User> {
-		return new User(await getRepository(UserModel).findOne(id));
+		const userModel = await getRepository(UserModel).findOne(id);
+		if (!userModel) {
+			throw new NotFoundError('user with id ' + id + ' not found');
+		}
+		return new User(userModel);
 	}
 
 	public async getAllUsers(): Promise<User[]> {
@@ -17,6 +22,9 @@ export class UserRepository {
 
 	public async getUserByLogin(login: string): Promise<User> {
 		const model = await getRepository(UserModel).findOne({ where: { login } });
+		if (!model) {
+			throw new NotFoundError('user with login ' + login + ' not found');
+		}
 		return new User(model);
 	}
 

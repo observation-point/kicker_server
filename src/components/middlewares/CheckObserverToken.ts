@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { ExpressMiddlewareInterface } from "routing-controllers";
 import { Config, ConfigType, ServicesConfig } from "../config";
+import { PermissionDeniedError } from "../http-error";
 
 export class CheckObserverToken implements ExpressMiddlewareInterface {
 
@@ -10,7 +11,7 @@ export class CheckObserverToken implements ExpressMiddlewareInterface {
 		const { token } = Config.getInstance().getConfig(ConfigType.Services) as ServicesConfig;
 
 		if (req.headers.authorization !== BEARER_PREFIX + token) {
-			throw new Error("invalid token");
+			throw new PermissionDeniedError("invalid token");
 		}
 		next();
 

@@ -6,6 +6,7 @@ import { UserRepository } from "../../infrastructure/repository/UserRepository";
 import { UserResponse } from "../types";
 import { LoginParamForm } from "../validation/LoginParamForm";
 import { UserView } from "../view/UserView";
+import { NotFoundError, AuthError } from "../../components/http-error";
 
 @JsonController("/api/auth")
 export class AuthController {
@@ -20,10 +21,9 @@ export class AuthController {
 	): Promise<UserResponse> {
 		const user = await this.userRepository.getUserByLogin(login);
 
-		if (!user) {
-			throw new Error(`Now found user with ${login}`);
+		if (!user.checkPass(password)) {
+			throw new AuthError("WrongPassword");
 		}
-		user.checkPass(password);
 
 		session.user = user.serialize();
 
