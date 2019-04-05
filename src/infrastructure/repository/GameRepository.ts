@@ -24,11 +24,14 @@ export class GameRepository {
 	}
 
 	public async getWinCount(userId: string, role: Role): Promise<number> {
-		return getRepository(GameModel).createQueryBuilder("game")
+		const games = await getRepository(GameModel).createQueryBuilder("game")
 			.leftJoin("player", "player", "game.id = player.gameId")
 			.where("game.status = :gameStatus", { gameStatus: GameStatus.FINISHED })
 			.andWhere("player.role = :role and player.userId = :userId", { userId, role })
-			.getCount();
+			.andWhere("game.winner = player.side")
+			.getMany();
+
+		return games.length;
 	}
 
 }

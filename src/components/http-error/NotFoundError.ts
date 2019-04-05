@@ -1,10 +1,10 @@
-import { HttpError } from './HttpError';
-import { ErrorCode } from './types';
+import { HttpError } from "./HttpError";
+import { ErrorCode } from "./types";
 
 class NotFoundError extends HttpError {
-    public get code(): number {
-        return ErrorCode.NotFound;
-    }
+	public get code(): number {
+		return ErrorCode.NotFound;
+	}
 }
 
 export { NotFoundError };

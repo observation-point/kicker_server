@@ -1,9 +1,9 @@
 import { v4 as uuid } from "uuid";
 import { emitter, EventType } from "../../components/events";
+import { ForbiddenError } from "../../components/http-error";
 import { GameState, GameStatus, Side } from "../types";
 import { Goal } from "./Goal";
 import { Player } from "./Player";
-import { ForbiddenError } from "../../components/http-error";
 
 export class Game {
 
@@ -29,6 +29,7 @@ export class Game {
 	public startGame: Date;
 	public endGame: Date;
 	public status: GameStatus;
+	public winner: Side;
 
 	public players: Player[];
 	public goals: Goal[];
@@ -82,7 +83,8 @@ export class Game {
 			id: this.id,
 			startGame: this.startGame,
 			endGame: this.endGame,
-			status: this.status
+			status: this.status,
+			winner: this.winner
 		};
 
 	}
@@ -93,5 +95,7 @@ export class Game {
 		this.players = [];
 		this.goals = [];
 		this.startGame = undefined;
+		this.endGame = undefined;
+		this.winner = undefined;
 	}
 }

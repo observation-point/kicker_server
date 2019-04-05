@@ -1,6 +1,6 @@
 import { Column, Entity, OneToMany, PrimaryColumn } from "typeorm";
 
-import { GameStatus } from "../types";
+import { GameStatus, Side } from "../types";
 import { GoalModel } from "./GoalModel";
 import { PlayerModel } from "./PlayerModel";
 
@@ -17,6 +17,9 @@ export class GameModel {
 
 	@Column("varchar")
 	public status: GameStatus;
+
+	@Column("varchar")
+	public winner: Side;
 
 	@OneToMany((type) => PlayerModel, (player) => player.game)
 	public players: PlayerModel[];

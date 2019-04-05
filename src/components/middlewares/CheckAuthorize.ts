@@ -1,7 +1,7 @@
 import { NextFunction, Response } from "express";
 import { ExpressMiddlewareInterface } from "routing-controllers";
-import { Request } from "./Session";
 import { ForbiddenError } from "../http-error";
+import { Request } from "./Session";
 
 export class CheckAuthorize implements ExpressMiddlewareInterface {
 

@@ -1,10 +1,10 @@
 import { Inject, Service } from "typedi";
+import { ForbiddenError } from "../../components/http-error";
 import { Game, Player } from "../../infrastructure/entities";
 import { GameRepository } from "../../infrastructure/repository/GameRepository";
 import { UserRepository } from "../../infrastructure/repository/UserRepository";
 import { SocketService } from "../../infrastructure/services/SocketService";
 import { GameState, GameStatus, Role, Side } from "../../infrastructure/types";
-import { ForbiddenError } from "../../components/http-error";
 
 export interface AddPlayerParams { role: Role; side: Side; userId: string; }
 

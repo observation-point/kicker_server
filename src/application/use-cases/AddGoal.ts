@@ -5,8 +5,8 @@ import { SocketService } from "../../infrastructure/services/SocketService";
 import { GameStatus, Role, Side } from "../../infrastructure/types";
 import { GameStats, Goal as GoalData } from "../types";
 
-import { CalculateRatings } from "./CalculateRatings";
 import { ForbiddenError } from "../../components/http-error";
+import { CalculateRatings } from "./CalculateRatings";
 
 export interface AddPlayerParams { role: Role; side: Side; userId: string; }
 
@@ -71,6 +71,12 @@ export class AddGoal {
 	protected async complete(game: Game): Promise<void> {
 		game.status = GameStatus.FINISHED;
 		game.endGame = new Date();
+
+		const redGoals = game.goals.filter((item) => item.side === Side.RED);
+		const blackGoals = game.goals.filter((item) => item.side === Side.BLACK);
+
+		game.winner = redGoals.length > blackGoals.length ? Side.RED : Side.BLACK;
+
 		await this.gameRepository.save(game);
 		await this.ratingCalculator.execute(game);
 	}

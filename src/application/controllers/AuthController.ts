@@ -1,12 +1,12 @@
 import { Body, Get, JsonController, OnUndefined, Param, Post, Session } from "routing-controllers";
 
 import { Inject } from "typedi";
+import { AuthError, NotFoundError } from "../../components/http-error";
 import { Session as ExpressSession} from "../../components/middlewares/Session";
 import { UserRepository } from "../../infrastructure/repository/UserRepository";
 import { UserResponse } from "../types";
 import { LoginParamForm } from "../validation/LoginParamForm";
 import { UserView } from "../view/UserView";
-import { NotFoundError, AuthError } from "../../components/http-error";
 
 @JsonController("/api/auth")
 export class AuthController {
