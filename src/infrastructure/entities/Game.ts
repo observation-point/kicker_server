@@ -1,7 +1,7 @@
 import { v4 as uuid } from "uuid";
 import { emitter, EventType } from "../../components/events";
 import { ForbiddenError } from "../../components/http-error";
-import { GameState, GameStatus, Side } from "../types";
+import { GameState, GameStatus, Team } from "../types";
 import { Goal } from "./Goal";
 import { Player } from "./Player";
 
@@ -29,7 +29,7 @@ export class Game {
 	public startGame: Date;
 	public endGame: Date;
 	public status: GameStatus;
-	public winner: Side;
+	public winner: Team;
 
 	public players: Player[];
 	public goals: Goal[];
@@ -46,13 +46,13 @@ export class Game {
 			players: this.players ? this.players.map((item) => {
 				return {
 					role: item.role,
-					side: item.side,
+					team: item.team,
 					user: item.user.serialize()
 				};
 			}) : [],
 			goals: this.goals ? this.goals.map((item) => {
 				return {
-					side: item.side,
+					team: item.team,
 					time: item.time
 				};
 			}) : [],
@@ -62,7 +62,7 @@ export class Game {
 	}
 
 	public addPlayer(player: Player) {
-		if (this.players.find((item) => item.role === player.role && item.side === player.side)) {
+		if (this.players.find((item) => item.role === player.role && item.team === player.team)) {
 			throw new ForbiddenError("this place is already taken");
 		}
 

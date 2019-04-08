@@ -50,9 +50,9 @@ export class GameController {
 	@UseBefore(CheckAuthorize)
 	public async addPlayerAction(
 		@GetUserIdFromRequest() userId: string,
-		@Body() { role, side }: AddPlayerForm
+		@Body() { role, team }: AddPlayerForm
 	): Promise<GameState> {
-		return this.addPlayer.execute({ role, side, userId });
+		return this.addPlayer.execute({ role, team, userId });
 	}
 
 	@Post("/stop")

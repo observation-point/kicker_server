@@ -28,7 +28,7 @@ export class GameRepository {
 			.leftJoin("player", "player", "game.id = player.gameId")
 			.where("game.status = :gameStatus", { gameStatus: GameStatus.FINISHED })
 			.andWhere("player.role = :role and player.userId = :userId", { userId, role })
-			.andWhere("game.winner = player.side")
+			.andWhere("game.winner = player.team")
 			.getMany();
 
 		return games.length;

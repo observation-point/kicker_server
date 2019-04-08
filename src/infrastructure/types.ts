@@ -10,11 +10,11 @@ export interface GameState {
 	id: string;
 	players: Array<{
 		role: Role,
-		side: Side,
+		team: Team,
 		user: UserAttributes
 	}>;
 	goals: Array<{
-		side: Side,
+		team: Team,
 		time: Date
 	}>;
 	status: GameStatus;
@@ -26,7 +26,7 @@ export enum Role {
 	Attack = "attack"
 }
 
-export enum Side {
+export enum Team {
 	RED = "RED",
 	BLACK = "BLACK"
 }

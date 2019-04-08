@@ -8,7 +8,7 @@ export class CreatePlayerTable1552689982269 implements MigrationInterface {
                 id VARCHAR(40) primary key,
                 "userId" VARCHAR(40) references kicker_user(id),
                 "gameId" VARCHAR(40) references game(id),
-                side VARCHAR(5) not null,
+                team VARCHAR(5) not null,
                 role VARCHAR(10) not null
             );
             `

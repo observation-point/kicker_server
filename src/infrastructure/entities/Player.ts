@@ -1,5 +1,5 @@
 import { v4 } from "uuid";
-import { Role, Side } from "../types";
+import { Role, Team } from "../types";
 import { User } from "./User";
 
 export class Player {
@@ -8,15 +8,15 @@ export class Player {
 	public gameId: string;
 
 	public user: User;
-	public side: Side;
+	public team: Team;
 	public role: Role;
 
-	public constructor(data: { gameId: string, side: Side, role: Role, user: User }) {
+	public constructor(data: { gameId: string, team: Team, role: Role, user: User }) {
 		this.id = v4();
 		this.gameId = data.gameId;
 		this.user = data.user;
 		this.role = data.role;
-		this.side = data.side;
+		this.team = data.team;
 	}
 
 	public getScheme() {
@@ -24,7 +24,7 @@ export class Player {
 			id: this.id,
 			gameId: this.gameId,
 			userId: this.user.id,
-			side: this.side,
+			team: this.team,
 			role: this.role
 		};
 	}

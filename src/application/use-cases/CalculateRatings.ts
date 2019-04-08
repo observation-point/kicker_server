@@ -2,7 +2,7 @@ import { Inject, Service } from "typedi";
 import { Game, Goal, Player, User } from "../../infrastructure/entities";
 import { GameRepository } from "../../infrastructure/repository/GameRepository";
 import { UserRepository } from "../../infrastructure/repository/UserRepository";
-import { Role, Side } from "../../infrastructure/types";
+import { Role, Team } from "../../infrastructure/types";
 
 @Service()
 export class CalculateRatings {
@@ -12,19 +12,19 @@ export class CalculateRatings {
 	private userRepository: UserRepository;
 
 	public async execute(game: Game): Promise<void> {
-		const redGoalsCount = game.goals.filter((goal: Goal) => goal.side === Side.RED).length;
-		const blackGoalsCount = game.goals.filter((goal: Goal) => goal.side === Side.BLACK).length;
-		let teamWinner: Side;
-		let teamLosser: Side;
+		const redGoalsCount = game.goals.filter((goal: Goal) => goal.team === Team.RED).length;
+		const blackGoalsCount = game.goals.filter((goal: Goal) => goal.team === Team.BLACK).length;
+		let teamWinner: Team;
+		let teamLosser: Team;
 		if (redGoalsCount > blackGoalsCount) {
-			teamWinner = Side.RED;
-			teamLosser = Side.BLACK;
+			teamWinner = Team.RED;
+			teamLosser = Team.BLACK;
 		} else {
-			teamWinner = Side.BLACK;
-			teamLosser = Side.RED;
+			teamWinner = Team.BLACK;
+			teamLosser = Team.RED;
 		}
-		const playersWinners = game.players.filter((player) => player.side === teamWinner);
-		const playersLossers = game.players.filter((player) => player.side === teamLosser);
+		const playersWinners = game.players.filter((player) => player.team === teamWinner);
+		const playersLossers = game.players.filter((player) => player.team === teamLosser);
 
 		const usersWinners = await this.getUsersByPlayerList(playersWinners);
 		const usersLosssers = await this.getUsersByPlayerList(playersLossers);

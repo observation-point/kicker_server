@@ -1,6 +1,6 @@
 import { Column, Entity, ManyToOne, PrimaryColumn } from "typeorm";
 import { v4 } from "uuid";
-import { Side } from "../types";
+import { Team } from "../types";
 
 export class Goal {
 
@@ -8,14 +8,14 @@ export class Goal {
 
 	public gameId: string;
 
-	public side: Side;
+	public team: Team;
 
 	public time: Date;
 
-	public constructor(gameId: string, side: Side, time: Date) {
+	public constructor(gameId: string, team: Team, time: Date) {
 		this.id = v4(),
 		this.gameId = gameId,
-		this.side = side,
+		this.team = team,
 		this.time = time;
 	}
 }
