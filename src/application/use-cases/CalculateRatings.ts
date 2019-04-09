@@ -58,7 +58,7 @@ export class CalculateRatings {
 
 	private calculateRatingDelta(winnerRating: number, losserRating: number): number {
 		const chanceToWin = 1 / ( 1 + Math.pow(10, (winnerRating - losserRating) / 400));
-		return Math.round(32 * chanceToWin);
+		return chanceToWin * 32;
 	}
 
 	private async adjustDelta(userId: string, role: Role, delta: number, isWinner: boolean): Promise<number> {
