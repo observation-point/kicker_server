@@ -28,7 +28,7 @@ export class BotController {
 		const password = randomstring.generate({
 			length: 6,
 			charset: "alphabetic"
-		  });
+		  }).toLowerCase();
 		const hashPassword = generatePasswordHash(password);
 
 		const user = new User({ ...form, id, password: hashPassword, rating: 1500 });
