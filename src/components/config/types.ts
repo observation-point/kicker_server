@@ -3,7 +3,8 @@ export enum ConfigType {
 	Db = "db",
 	Redis = "redis",
 	Services = "services",
-	Cors = "cors"
+	Cors = "cors",
+	Bot = "bot"
 }
 
 export interface DbConfig extends BaseConfig {
@@ -20,6 +21,10 @@ export interface ConfigDictionary {
 
 export interface ServicesConfig extends BaseConfig {
 	observer: string;
+	token: string;
+}
+
+export interface BotConfig extends BaseConfig {
 	token: string;
 }
 

@@ -2,8 +2,9 @@ export interface UserAttributes {
 	id: string;
 	login: string;
 	fullname: string;
-	avatar: string;
+	avatar?: string;
 	rating: number;
+	password?: string;
 }
 
 export interface GameState {

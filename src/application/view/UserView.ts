@@ -10,4 +10,13 @@ export class UserView {
 		};
 	}
 
+	public static makeResponseForBot(user: User, passwordOrigin: string): UserResponse {
+		return {
+			user: {
+				...user.serialize(),
+				password: passwordOrigin
+			}
+		};
+	}
+
 }
