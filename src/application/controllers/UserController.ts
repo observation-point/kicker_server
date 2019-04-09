@@ -1,6 +1,7 @@
 import { Body, JsonController, Post, Session } from "routing-controllers";
 
 import { Inject } from "typedi";
+import { v4 } from "uuid";
 import { generatePasswordHash } from "../../components/crypto";
 import { Session as ExpressSession } from "../../components/middlewares/Session";
 import { User } from "../../infrastructure/entities";
@@ -8,7 +9,6 @@ import { UserRepository } from "../../infrastructure/repository/UserRepository";
 import { UserResponse } from "../types";
 import { CreateUserForm } from "../validation/CreateUserForm";
 import { UserView } from "../view/UserView";
-import { v4 } from "uuid";
 
 @JsonController("/api/user")
 export class UserController {
