@@ -1,9 +1,10 @@
 export interface UserAttributes {
 	id: string;
-	firstName: string;
-	lastName: string;
-	avatar: string;
+	login: string;
+	fullname: string;
+	avatar?: string;
 	rating: number;
+	password?: string;
 }
 
 export interface GameState {

@@ -1,18 +1,12 @@
 import { IsOptional, IsString, MinLength } from "class-validator";
 
-export class CreateUserForm {
+export class CreateUserFormBot {
 
 	@IsString()
 	@MinLength(3, {
 		message: "login is too short"
 	})
 	public login: string;
-
-	@IsString()
-	@MinLength(3, {
-		message: "password is too short"
-	})
-	public password: string;
 
 	@IsString()
 	public fullname: string;
