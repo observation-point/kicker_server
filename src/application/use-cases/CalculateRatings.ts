@@ -12,11 +12,9 @@ export class CalculateRatings {
 	private userRepository: UserRepository;
 
 	public async execute(game: Game): Promise<void> {
-		const redGoalsCount = game.goals.filter((goal: Goal) => goal.team === Team.RED).length;
-		const blackGoalsCount = game.goals.filter((goal: Goal) => goal.team === Team.BLACK).length;
 		let teamWinner: Team;
 		let teamLosser: Team;
-		if (redGoalsCount > blackGoalsCount) {
+		if (game.winner === Team.RED) {
 			teamWinner = Team.RED;
 			teamLosser = Team.BLACK;
 		} else {
@@ -69,11 +67,11 @@ export class CalculateRatings {
 		let adjustedDelta: number;
 		if (role === Role.Attack) {
 			adjustedDelta = Math.round(
-				delta * (isWinner ? userDefenceWinsCount / (userAtackWinsCount - 1) : userAtackWinsCount / userDefenceWinsCount)
+				delta * (isWinner ? userDefenceWinsCount / userAtackWinsCount : userAtackWinsCount / userDefenceWinsCount)
 			);
 		} else {
 			adjustedDelta = Math.round(
-				delta * (isWinner ? userAtackWinsCount / (userDefenceWinsCount - 1) : userDefenceWinsCount / userAtackWinsCount)
+				delta * (isWinner ? userAtackWinsCount / userDefenceWinsCount : userDefenceWinsCount / userAtackWinsCount)
 			);
 		}
 		return adjustedDelta;
