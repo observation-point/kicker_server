@@ -8,6 +8,7 @@ import { UserRepository } from "../../infrastructure/repository/UserRepository";
 import { UserResponse } from "../types";
 import { CreateUserForm } from "../validation/CreateUserForm";
 import { UserView } from "../view/UserView";
+import { v4 } from "uuid";
 
 @JsonController("/api/user")
 export class UserController {
@@ -20,9 +21,10 @@ export class UserController {
 		@Session() session: ExpressSession,
 		@Body() form: CreateUserForm
 	): Promise<UserResponse> {
+		const id = v4();
 		const { password, ...data } = form;
 		const hashPassword = generatePasswordHash(password);
-		const user = new User({ ...data, password: hashPassword, rating: 1500 });
+		const user = new User({ ...data, id, password: hashPassword, rating: 1500 });
 		await this.userRepository.save(user);
 		session.user = user.serialize();
 

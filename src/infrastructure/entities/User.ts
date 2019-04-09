@@ -4,8 +4,7 @@ import { UserAttributes } from "../types";
 export class User {
 
 	public id: string;
-	public firstName: string;
-	public lastName: string;
+	public fullname: string;
 	public avatar: string;
 	public rating: number;
 
@@ -14,18 +13,16 @@ export class User {
 
 	public constructor(userModel: {
 		id: string,
-		firstName: string,
-		lastName: string,
+		fullname: string,
 		avatar: string,
 		rating: number,
 		login: string,
 		password: string
 	}) {
-		const { id, firstName, lastName, login, password, avatar = "", rating } = userModel;
+		const { id, fullname, login, password, avatar = "", rating } = userModel;
 
 		this.id = id;
-		this.firstName = firstName;
-		this.lastName = lastName;
+		this.fullname = fullname;
 		this.avatar = avatar;
 		this.rating = rating;
 		this.login = login;
@@ -35,8 +32,8 @@ export class User {
 	public serialize(): UserAttributes {
 		return {
 			id: this.id,
-			firstName: this.firstName,
-			lastName: this.lastName,
+			login: this.login,
+			fullname: this.fullname,
 			avatar: this.avatar,
 			rating: this.rating
 		};
@@ -52,8 +49,7 @@ export class User {
 	public getScheme() {
 		return {
 			id: this.id,
-			firstName: this.firstName,
-			lastNmae: this.lastName,
+			fullname: this.fullname,
 			avatar: this.avatar,
 			rating: this.rating,
 			login: this.login,

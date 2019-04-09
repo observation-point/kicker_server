@@ -1,21 +1,21 @@
-import { IsOptional, IsString, IsUUID } from "class-validator";
+import { IsOptional, IsString, IsUUID, MinLength } from "class-validator";
 
 export class CreateUserForm {
 
-	@IsUUID("4")
-	public id: string;
-
 	@IsString()
+	@MinLength(3, {
+        message: "login is too short"
+    })
 	public login: string;
 
 	@IsString()
+	@MinLength(3, {
+        message: "password is too short"
+    })
 	public password: string;
 
 	@IsString()
-	public firstName: string;
-
-	@IsString()
-	public lastName: string;
+	public fullname: string;
 
 	@IsOptional()
 	@IsString()

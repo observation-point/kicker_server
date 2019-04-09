@@ -1,7 +1,7 @@
 export interface UserAttributes {
 	id: string;
-	firstName: string;
-	lastName: string;
+	login: string;
+	fullname: string;
 	avatar: string;
 	rating: number;
 }

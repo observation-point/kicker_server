@@ -8,9 +8,10 @@ export class CreateUserTable1551558086922 implements MigrationInterface {
                 id VARCHAR(40) primary key,
                 login VARCHAR(255) NOT NULL,
                 password VARCHAR(255) NOT NULL,
-                "firstName" VARCHAR(255) NOT NULL,
-                "lastName" VARCHAR(255),
-                avatar VARCHAR(255)
+                fullname VARCHAR(255) NOT NULL,
+                rating integer DEFAULT 1500,
+                avatar VARCHAR(255),
+                CONSTRAINT unique_login UNIQUE(login)
             );
         `);
 	}
