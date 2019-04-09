@@ -77,8 +77,8 @@ export class AddGoal {
 
 		game.winner = redGoals.length > blackGoals.length ? Team.RED : Team.BLACK;
 
-		await this.gameRepository.save(game);
 		await this.ratingCalculator.execute(game);
+		await this.gameRepository.save(game);
 	}
 
 	protected async createNewGame(game: Game): Promise<void> {
