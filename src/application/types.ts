@@ -1,4 +1,4 @@
-import { GameStatus, Side, UserAttributes } from "../infrastructure/types";
+import { GameStatus, Team, UserAttributes } from "../infrastructure/types";
 
 export interface UserResponse {
 	user: UserAttributes;
@@ -11,6 +11,6 @@ export interface GameStats {
 }
 
 export interface Goal {
-	team: Side;
+	team: Team;
 	time: Date;
 }

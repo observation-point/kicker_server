@@ -1,3 +1,3 @@
-import { Success, Error } from './types';
+import { Error, Success } from "./types";
 
 export { Success, Error };

@@ -2,13 +2,13 @@ import { Inject, Service } from "typedi";
 import { Game, Goal } from "../../infrastructure/entities";
 import { GameRepository } from "../../infrastructure/repository/GameRepository";
 import { SocketService } from "../../infrastructure/services/SocketService";
-import { GameStatus, Role, Side } from "../../infrastructure/types";
+import { GameStatus, Role, Team } from "../../infrastructure/types";
 import { GameStats, Goal as GoalData } from "../types";
 
-import { CalculateRatings } from "./CalculateRatings";
 import { ForbiddenError } from "../../components/http-error";
+import { CalculateRatings } from "./CalculateRatings";
 
-export interface AddPlayerParams { role: Role; side: Side; userId: string; }
+export interface AddPlayerParams { role: Role; team: Team; userId: string; }
 
 @Service()
 export class AddGoal {
@@ -56,7 +56,7 @@ export class AddGoal {
 
 	protected getNewGoals(goals: GoalData[], game: Game): Goal[] {
 		const newGoalsData = goals.filter((item) => {
-			return !game.goals.find((g) => g.side === item.team && g.time === item.time);
+			return !game.goals.find((g) => g.team === item.team && g.time === item.time);
 		});
 
 		return newGoalsData.map(({ team, time }) => {
@@ -71,6 +71,12 @@ export class AddGoal {
 	protected async complete(game: Game): Promise<void> {
 		game.status = GameStatus.FINISHED;
 		game.endGame = new Date();
+
+		const redGoals = game.goals.filter((item) => item.team === Team.RED);
+		const blackGoals = game.goals.filter((item) => item.team === Team.BLACK);
+
+		game.winner = redGoals.length > blackGoals.length ? Team.RED : Team.BLACK;
+
 		await this.gameRepository.save(game);
 		await this.ratingCalculator.execute(game);
 	}

@@ -1,6 +1,5 @@
 import { Column, Entity, ManyToOne, PrimaryColumn } from "typeorm";
-import { v4 } from "uuid";
-import { Role, Side } from "../types";
+import { Role, Team } from "../types";
 import { GameModel } from "./GameModel";
 import { UserModel } from "./UserModel";
 
@@ -16,7 +15,7 @@ export class PlayerModel {
 	public gameId: string;
 
 	@Column("varchar")
-	public side: Side;
+	public team: Team;
 
 	@Column("varchar")
 	public role: Role;

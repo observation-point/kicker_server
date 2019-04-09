@@ -1,77 +1,77 @@
-import { HttpError, ErrorData } from './HttpError';
-import { ErrorCode } from './types';
+import { ErrorData, HttpError } from "./HttpError";
+import { ErrorCode } from "./types";
 
-type AuthErrorItems = {
-    code: string;
-    status: number;
-    message: string;
-    [property: string]: string[] | string | number;
-};
+interface AuthErrorItems {
+	code: string;
+	status: number;
+	message: string;
+	[property: string]: string[] | string | number;
+}
 
 interface AuthErrorData extends ErrorData {
-    authErrors: AuthErrorItems;
+	authErrors: AuthErrorItems;
 }
 
 export class AuthError extends HttpError {
-    protected authErrors_: AuthErrorItems;
 
-    constructor(errorType: string) {
-        super();
-        this.authErrors_ = AuthError.getError(errorType);
-    }
+	public get code(): ErrorCode {
+		return this.authErrors_.status;
+	}
 
-    protected static getError(errorType: string): AuthErrorItems {
-        let error: AuthErrorItems = null;
-        switch (errorType) {
-            case 'WrongPassword':
-                error = {
-                    code: 'WrongPassword',
-                    status: ErrorCode.Unauthorized,
-                    message: 'Wrong password'
-                };
-                break;
-            case 'UserBanned':
-                error = {
-                    code: 'UserBanned',
-                    status: ErrorCode.Forbidden,
-                    message: 'User banned'
-                };
-                break;
-            case 'AccessError':
-                error = {
-                    code: 'AccessError',
-                    status: ErrorCode.UnprocessableEntity,
-                    message: 'AccessError'
-                };
-                break;
-            case 'NotAdmin':
-                error = {
-                    code: 'AccessError',
-                    status: ErrorCode.Forbidden,
-                    message: 'Not admin'
-                };
-                break;
-        }
+	public get errorCode(): string {
+		return this.authErrors_.code;
+	}
 
-        return error;
-    }
+	public get data(): AuthErrorData {
+		return {
+			...super.data,
+			authErrors: this.authErrors_
+		};
+	}
 
-    public get code(): ErrorCode {
-        return this.authErrors_.status;
-    }
+	protected get authErrors(): AuthErrorItems {
+		return this.authErrors_;
+	}
 
-    public get errorCode(): string {
-        return this.authErrors_.code;
-    }
+	protected static getError(errorType: string): AuthErrorItems {
+		let error: AuthErrorItems = null;
+		switch (errorType) {
+			case "WrongPassword":
+				error = {
+					code: "WrongPassword",
+					status: ErrorCode.Unauthorized,
+					message: "Wrong password"
+				};
+				break;
+			case "UserBanned":
+				error = {
+					code: "UserBanned",
+					status: ErrorCode.Forbidden,
+					message: "User banned"
+				};
+				break;
+			case "AccessError":
+				error = {
+					code: "AccessError",
+					status: ErrorCode.UnprocessableEntity,
+					message: "AccessError"
+				};
+				break;
+			case "NotAdmin":
+				error = {
+					code: "AccessError",
+					status: ErrorCode.Forbidden,
+					message: "Not admin"
+				};
+				break;
+		}
 
-    public get data(): AuthErrorData {
-        return {
-            ...super.data,
-            authErrors: this.authErrors_
-        };
-    }
+		return error;
+	}
+	protected authErrors_: AuthErrorItems;
 
-    protected get authErrors(): AuthErrorItems {
-        return this.authErrors_;
-    }
+	constructor(errorType: string) {
+		super();
+		this.authErrors_ = AuthError.getError(errorType);
+	}
 }

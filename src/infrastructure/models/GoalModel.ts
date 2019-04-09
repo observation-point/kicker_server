@@ -1,5 +1,5 @@
 import { Column, Entity, ManyToOne, PrimaryColumn } from "typeorm";
-import { Side } from "../types";
+import { Team } from "../types";
 import { GameModel } from "./GameModel";
 
 @Entity("goal")
@@ -11,7 +11,7 @@ export class GoalModel {
 	public gameId: string;
 
 	@Column()
-	public side: Side;
+	public team: Team;
 
 	@Column()
 	public time: Date;

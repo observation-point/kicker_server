@@ -1,9 +1,9 @@
 import { Inject, Service } from "typedi";
+import { PermissionDeniedError } from "../../components/http-error";
 import { Game } from "../../infrastructure/entities";
 import { GameRepository } from "../../infrastructure/repository/GameRepository";
 import { AutomatizationService } from "../../infrastructure/services/AutomatizationService";
 import { SocketService } from "../../infrastructure/services/SocketService";
-import { PermissionDeniedError } from "../../components/http-error";
 
 @Service()
 export class StopGame {
