@@ -38,13 +38,13 @@ export class CalculateRatings {
 		const ratingDelta = this.calculateRatingDelta(avgRatingWinners, avgRatingLossers); // 3
 
 		usersWinners.forEach(async (user, index) => {
-			const newRating = user.rating + await this.adjustDelta(user.id, playersWinners[index].role, true, ratingDelta);
+			const newRating = user.rating + await this.adjustDelta(user.id, playersWinners[index].role, ratingDelta, true);
 			user.changeRating(newRating);
 			await this.userRepository.save(user);
 		});
 
 		usersLosssers.forEach(async (user, index) => {
-			const newRating = user.rating - await this.adjustDelta(user.id, playersLossers[index].role, false, ratingDelta);
+			const newRating = user.rating - await this.adjustDelta(user.id, playersLossers[index].role, ratingDelta, false);
 			user.changeRating(newRating);
 			await this.userRepository.save(user);
 		});
@@ -63,17 +63,17 @@ export class CalculateRatings {
 		return Math.round(32 * chanceToWin);
 	}
 
-	private async adjustDelta(userId: string, role: Role, isWinner: boolean, delta: number): Promise<number> {
+	private async adjustDelta(userId: string, role: Role, delta: number, isWinner: boolean): Promise<number> {
 		const userAtackWinsCount = await this.gameRespository.getWinCount(userId, Role.Attack);
 		const userDefenceWinsCount = await this.gameRespository.getWinCount(userId, Role.Defense);
 		let adjustedDelta: number;
 		if (role === Role.Attack) {
 			adjustedDelta = Math.round(
-				delta * (isWinner ? userDefenceWinsCount / userAtackWinsCount : userAtackWinsCount / userDefenceWinsCount)
+				delta * (isWinner ? userDefenceWinsCount / (userAtackWinsCount - 1) : userAtackWinsCount / userDefenceWinsCount)
 			);
 		} else {
 			adjustedDelta = Math.round(
-				delta * (isWinner ? userAtackWinsCount / userDefenceWinsCount : userDefenceWinsCount / userAtackWinsCount)
+				delta * (isWinner ? userAtackWinsCount / (userDefenceWinsCount - 1) : userDefenceWinsCount / userAtackWinsCount)
 			);
 		}
 		return adjustedDelta;
