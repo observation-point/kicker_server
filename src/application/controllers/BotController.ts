@@ -36,4 +36,5 @@ export class BotController {
 
 		return UserView.makeResponseForBot(user, password);
 	}
+
 }

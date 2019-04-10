@@ -34,4 +34,12 @@ export class GameRepository {
 		return games.length;
 	}
 
+	public async getGameCount(userId: string): Promise<number> {
+		return getRepository(GameModel).createQueryBuilder("game")
+			.leftJoin("player", "player", "game.id = player.gameId")
+			.where("game.status = :gameStatus", { gameStatus: GameStatus.FINISHED })
+			.andWhere("player.userId = :userId", { userId })
+			.getCount();
+	}
+
 }

@@ -30,4 +30,5 @@ export class UserController {
 
 		return UserView.makeResponse(user);
 	}
+
 }
