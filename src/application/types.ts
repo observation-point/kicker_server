@@ -20,6 +20,7 @@ export interface LeaderboardResponse {
 }
 
 export interface UserStats {
+	userId: string;
 	avatar: string;
 	fullname: string;
 	rating: number;

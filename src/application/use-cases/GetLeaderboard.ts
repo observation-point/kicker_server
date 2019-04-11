@@ -25,6 +25,7 @@ export class GetLeaderboard {
 			]);
 
 			usersStats.push({
+				userId: user.id,
 				avatar: user.avatar,
 				fullname: user.fullname,
 				rating: user.rating,
