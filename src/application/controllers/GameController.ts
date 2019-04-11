@@ -1,8 +1,8 @@
 import { Body, Get, JsonController, OnUndefined, Param, Post, Put, UseBefore } from "routing-controllers";
 
-import { NotFoundError } from "../../components/http-error";
 import { Inject } from "typedi";
 import { GetUserIdFromRequest } from "../../components/decorators/GetUserIdFromRequest";
+import { NotFoundError } from "../../components/http-error";
 import { CheckAuthorize } from "../../components/middlewares/CheckAuthorize";
 import { CheckObserverToken } from "../../components/middlewares/CheckObserverToken";
 import { Game } from "../../infrastructure/entities";
