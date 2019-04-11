@@ -11,10 +11,10 @@ export class GetLeaderboard {
 	@Inject()
 	private userRepository: UserRepository;
 
-	public async execute(query: LeaderboardQuery = {}): Promise<LeaderboardResponse> {
+	public async execute({ limit, offset }: LeaderboardQuery = {}): Promise<LeaderboardResponse> {
 		const usersStats: UserStats[] = [];
 
-		const users = await this.userRepository.getUsers(query);
+		const users = await this.userRepository.getUsers({ limit, offset });
 
 		for (const user of users) {
 			const userId = user.id;

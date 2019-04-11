@@ -1,10 +1,11 @@
 import { plainToClass } from "class-transformer";
 import { Service } from "typedi";
-import { getRepository } from "typeorm";
+import { FindConditions, getRepository, In } from "typeorm";
 import { LeaderboardQuery } from "../../application/types";
 import { NotFoundError } from "../../components/http-error";
 import { User } from "../entities";
 import { UserModel } from "../models";
+import { UserQueryParam } from "../types";
 
 @Service()
 export class UserRepository {
@@ -16,10 +17,11 @@ export class UserRepository {
 		return new User(userModel);
 	}
 
-	public async getUsers({ limit = 0, offset = 0 }: LeaderboardQuery): Promise<User[]> {
+	public async getUsers({ limit, offset, ids }: UserQueryParam): Promise<User[]> {
 		const usersData = await getRepository(UserModel).find({
-			take: limit,
-			skip: offset
+			where: this.queryGenerator({ ids }),
+			take: limit || 0,
+			skip: offset || 0
 		});
 		return usersData.map((user: UserModel) => new User(user));
 	}
@@ -35,5 +37,15 @@ export class UserRepository {
 	public async save(user: User): Promise<User> {
 		const model = await getRepository(UserModel).save(plainToClass(UserModel, user.getScheme()));
 		return new User(model);
+	}
+
+	protected queryGenerator(query: { ids: string[] }): FindConditions<UserModel> {
+		const { ids } = query;
+		const queryCondition: FindConditions<UserModel> = {};
+		if (ids) {
+			queryCondition.id = In(ids);
+		}
+
+		return queryCondition;
 	}
 }

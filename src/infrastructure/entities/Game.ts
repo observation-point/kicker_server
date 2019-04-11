@@ -57,7 +57,8 @@ export class Game {
 				};
 			}) : [],
 			status: this.status,
-			startGame: this.startGame
+			startGame: this.startGame,
+			endGame: this.endGame
 		};
 	}
 
