@@ -7,6 +7,12 @@ export interface UserAttributes {
 	password?: string;
 }
 
+export interface UserQueryParam {
+	limit?: number;
+	offset?: number;
+	ids?: string[];
+}
+
 export interface GameState {
 	id: string;
 	players: Array<{
@@ -20,6 +26,7 @@ export interface GameState {
 	}>;
 	status: GameStatus;
 	startGame: Date;
+	endGame?: Date;
 }
 
 export enum Role {
