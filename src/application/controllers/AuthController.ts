@@ -13,7 +13,7 @@ export class AuthController {
 	@Inject()
 	private userRepository: UserRepository;
 
-	@Post("/:login")
+	@Post("/login/:login")
 	public async login(
 		@Param("login") login: string,
 		@Body() { password }: LoginParamForm,
