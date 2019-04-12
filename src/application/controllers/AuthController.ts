@@ -35,6 +35,7 @@ export class AuthController {
 		@Body() { token }: { token: string },
 		@Session() session: Express.Session
 	): Promise<UserResponse> {
+		console.log("loginByToken");
 		const user = await this.userRepository.getUserByToken(token);
 
 		session.user = user.serialize();
