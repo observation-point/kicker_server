@@ -33,10 +33,15 @@ export class BotController {
 
 		const token = v4();
 
-		const user = new User({ ...form, id, token, password: hashPassword, rating: 1500 });
-		await this.userRepository.save(user);
+		let user = new User({ ...form, id, token, password: hashPassword, rating: 1500 });
+		try {
+			await this.userRepository.save(user);
+			return UserView.makeResponseForBot(user, password);
+		} catch (error) {
+			user = await this.userRepository.getUserByLogin(user.login);
+			return UserView.makeResponse(user);
+		}
 
-		return UserView.makeResponseForBot(user, password);
 	}
 
 }
