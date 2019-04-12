@@ -30,7 +30,7 @@ export class AuthController {
 		return UserView.makeResponse(user);
 	}
 
-	@Post("/token/")
+	@Post("/token")
 	public async loginByToken(
 		@Body() { token }: { token: string },
 		@Session() session: Express.Session
