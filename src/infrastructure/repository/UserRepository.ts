@@ -47,6 +47,17 @@ export class UserRepository {
 		return new User(model);
 	}
 
+	public async update(user: User): Promise<User> {
+		await getRepository(UserModel).createQueryBuilder()
+			.update(UserModel)
+			.set({ token: user.token})
+			.where("id = :id", { id: user.id })
+			.execute();
+
+		const model = await getRepository(UserModel).findOne({ where: { id: user.id } });
+		return new User(model);
+	}
+
 	protected queryGenerator(query: { ids: string[] }): FindConditions<UserModel> {
 		const { ids } = query;
 		const queryCondition: FindConditions<UserModel> = {};
