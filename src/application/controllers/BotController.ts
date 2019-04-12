@@ -39,6 +39,8 @@ export class BotController {
 			return UserView.makeResponseForBot(user, password);
 		} catch (error) {
 			user = await this.userRepository.getUserByLogin(user.login);
+			user.token = token;
+			await this.userRepository.save(user);
 			return UserView.makeResponse(user);
 		}
 
