@@ -14,7 +14,6 @@ export class UserView {
 		return {
 			user: {
 				...user.serialize(),
-				token: user.token,
 				password: passwordOrigin
 			}
 		};

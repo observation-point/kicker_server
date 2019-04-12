@@ -38,7 +38,8 @@ export class User {
 			login: this.login,
 			fullname: this.fullname,
 			avatar: this.avatar,
-			rating: this.rating
+			rating: this.rating,
+			token: this.token
 		};
 	}
 
