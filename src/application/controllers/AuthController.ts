@@ -30,6 +30,18 @@ export class AuthController {
 		return UserView.makeResponse(user);
 	}
 
+	@Post("/token/")
+	public async loginByToken(
+		@Body() { token }: { token: string },
+		@Session() session: Express.Session
+	): Promise<UserResponse> {
+		const user = await this.userRepository.getUserByToken(token);
+
+		session.user = user.serialize();
+
+		return UserView.makeResponse(user);
+	}
+
 	@Get("/")
 	public async isAuthorized(
 		@Session() session: ExpressSession

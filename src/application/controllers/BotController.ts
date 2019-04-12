@@ -31,7 +31,9 @@ export class BotController {
 		}).toLowerCase();
 		const hashPassword = generatePasswordHash(password);
 
-		const user = new User({ ...form, id, password: hashPassword, rating: 1500 });
+		const token = v4();
+
+		const user = new User({ ...form, id, token, password: hashPassword, rating: 1500 });
 		await this.userRepository.save(user);
 
 		return UserView.makeResponseForBot(user, password);

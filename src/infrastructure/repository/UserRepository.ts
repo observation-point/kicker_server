@@ -34,6 +34,14 @@ export class UserRepository {
 		return new User(model);
 	}
 
+	public async getUserByToken(token: string): Promise<User> {
+		const model = await getRepository(UserModel).findOne({ where: { token } });
+		if (!model) {
+			throw new NotFoundError("user with token " + token + " not found");
+		}
+		return new User(model);
+	}
+
 	public async save(user: User): Promise<User> {
 		const model = await getRepository(UserModel).save(plainToClass(UserModel, user.getScheme()));
 		return new User(model);

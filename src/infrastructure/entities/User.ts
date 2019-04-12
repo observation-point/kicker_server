@@ -10,6 +10,7 @@ export class User {
 
 	public login: string;
 	public password: string;
+	public token: string;
 
 	public constructor(userModel: {
 		id: string,
@@ -17,9 +18,10 @@ export class User {
 		avatar: string,
 		rating: number,
 		login: string,
-		password: string
+		password: string,
+		token: string
 	}) {
-		const { id, fullname, login, password, avatar = "", rating } = userModel;
+		const { id, fullname, login, password, avatar = "", rating, token } = userModel;
 
 		this.id = id;
 		this.fullname = fullname;
@@ -27,6 +29,7 @@ export class User {
 		this.rating = rating;
 		this.login = login;
 		this.password = password;
+		this.token = token;
 	}
 
 	public serialize(): UserAttributes {
@@ -53,7 +56,8 @@ export class User {
 			avatar: this.avatar,
 			rating: this.rating,
 			login: this.login,
-			password: this.password
+			password: this.password,
+			token: this.token
 		};
 	}
 

@@ -22,6 +22,9 @@ export class UserModel {
 	@Column()
 	public password: string;
 
+	@Column()
+	public token: string;
+
 	@OneToMany((type) => PlayerModel, (player) => player.user)
 	public players: PlayerModel[];
 

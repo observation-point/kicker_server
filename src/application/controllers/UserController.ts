@@ -24,7 +24,7 @@ export class UserController {
 		const id = v4();
 		const { password, ...data } = form;
 		const hashPassword = generatePasswordHash(password);
-		const user = new User({ ...data, id, password: hashPassword, rating: 1500 });
+		const user = new User({ ...data, id, password: hashPassword, rating: 1500, token: v4() });
 		await this.userRepository.save(user);
 		session.user = user.serialize();
 

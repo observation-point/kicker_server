@@ -5,6 +5,7 @@ export interface UserAttributes {
 	avatar?: string;
 	rating: number;
 	password?: string;
+	token?: string;
 }
 
 export interface UserQueryParam {
