@@ -4,7 +4,6 @@ import { Game, Player } from "../../infrastructure/entities";
 import { GameRepository } from "../../infrastructure/repository/GameRepository";
 import { SocketService } from "../../infrastructure/services/SocketService";
 import { GameStatus } from "../../infrastructure/types";
-import { NewGameType } from "../types";
 
 @Service()
 export class PlayAgain {
