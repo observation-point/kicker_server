@@ -36,8 +36,6 @@ export class AddGoal {
 			await this.complete(game);
 			this.socketService.emit("updated_game", game.getState());
 			this.socketService.emit("update_rating", "update_rating");
-
-			await this.createNewGame(game);
 		}
 
 		this.socketService.emit("updated_game", game.getState());
@@ -82,8 +80,4 @@ export class AddGoal {
 		await this.gameRepository.save(game);
 	}
 
-	protected async createNewGame(game: Game): Promise<void> {
-		game.reset();
-		await this.gameRepository.save(game);
-	}
 }

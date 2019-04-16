@@ -4,6 +4,11 @@ export interface UserResponse {
 	user: UserAttributes;
 }
 
+export enum NewGameType {
+	Next = "next",
+	PlayAgain = "play_again"
+}
+
 export interface GameStats {
 	id: string;
 	goals: Goal[];

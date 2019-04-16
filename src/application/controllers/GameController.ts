@@ -1,6 +1,6 @@
 import { Body, Get, JsonController, OnUndefined, Param, Post, Put, UseBefore } from "routing-controllers";
-
 import { Inject } from "typedi";
+
 import { GetUserIdFromRequest } from "../../components/decorators/GetUserIdFromRequest";
 import { NotFoundError } from "../../components/http-error";
 import { CheckAuthorize } from "../../components/middlewares/CheckAuthorize";
@@ -9,9 +9,11 @@ import { Game } from "../../infrastructure/entities";
 import { GameRepository } from "../../infrastructure/repository/GameRepository";
 import { UserRepository } from "../../infrastructure/repository/UserRepository";
 import { GameState } from "../../infrastructure/types";
-import { GameStats } from "../types";
+import { GameStats, NewGameType } from "../types";
 import { AddGoal } from "../use-cases/AddGoal";
 import { AddPlayer } from "../use-cases/AddPlayer";
+import { NewGame } from "../use-cases/NewGame";
+import { PlayAgain } from "../use-cases/PlayAgain";
 import { StopGame } from "../use-cases/StopGame";
 import { AddPlayerForm } from "../validation/AddPlayerForm";
 import { GameView } from "../view/GameView";
@@ -33,6 +35,12 @@ export class GameController {
 
 	@Inject()
 	private stopGame: StopGame;
+
+	@Inject()
+	private newGame: NewGame;
+
+	@Inject()
+	private playAgain: PlayAgain;
 
 	@Get("/")
 	public async getState(): Promise<GameState> {
@@ -67,6 +75,21 @@ export class GameController {
 		@GetUserIdFromRequest() userId: string
 	): Promise<void> {
 		await this.stopGame.execute(userId);
+	}
+
+	@Post("/new")
+	@OnUndefined(204)
+	public async newGameAction(
+		@GetUserIdFromRequest() userId: string,
+		@Body() { type }: { type: NewGameType }
+	): Promise<void> {
+		console.log(type);
+		if (type === NewGameType.Next) {
+			await this.newGame.execute();
+		}
+		if (type === NewGameType.PlayAgain) {
+			await this.playAgain.execute();
+		}
 	}
 
 	@Get("/:id")

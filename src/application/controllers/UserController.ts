@@ -26,7 +26,7 @@ export class UserController {
 		const hashPassword = generatePasswordHash(password);
 		const user = new User({ ...data, id, password: hashPassword, rating: 1500, token: v4() });
 		await this.userRepository.save(user);
-		
+
 		session.user = { id: user.id };
 
 		return UserView.makeResponse(user);
