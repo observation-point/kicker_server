@@ -1,4 +1,4 @@
-import { v4 as uuid } from "uuid";
+import { v4, v4 as uuid } from "uuid";
 import { emitter, EventType } from "../../components/events";
 import { ForbiddenError } from "../../components/http-error";
 import { GameState, GameStatus, Team } from "../types";
@@ -96,6 +96,15 @@ export class Game {
 		this.players = [];
 		this.goals = [];
 		this.startGame = undefined;
+		this.endGame = undefined;
+		this.winner = undefined;
+	}
+
+	public playAgain() {
+		this.id = uuid();
+		this.status = GameStatus.INPROCESS;
+		this.goals = [];
+		this.startGame = new Date();
 		this.endGame = undefined;
 		this.winner = undefined;
 	}

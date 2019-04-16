@@ -18,7 +18,7 @@ export class UserController {
 
 	@Post("/")
 	public async createUser(
-		@Session() session: ExpressSession,
+		@Session() session: Express.Session,
 		@Body() form: CreateUserForm
 	): Promise<UserResponse> {
 		const id = v4();
@@ -26,7 +26,8 @@ export class UserController {
 		const hashPassword = generatePasswordHash(password);
 		const user = new User({ ...data, id, password: hashPassword, rating: 1500, token: v4() });
 		await this.userRepository.save(user);
-		session.user = user.serialize();
+
+		session.user = { id: user.id };
 
 		return UserView.makeResponse(user);
 	}

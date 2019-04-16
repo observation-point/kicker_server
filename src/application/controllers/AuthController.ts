@@ -25,7 +25,7 @@ export class AuthController {
 			throw new AuthError("WrongPassword");
 		}
 
-		session.user = user.serialize();
+		session.user = { id: user.id };
 
 		return UserView.makeResponse(user);
 	}
@@ -37,9 +37,8 @@ export class AuthController {
 	): Promise<UserResponse> {
 		const user = await this.userRepository.getUserByToken(token);
 
-		session.user = user.serialize();
+		session.user = { id: user.id };
 
-		console.log(user);
 		return UserView.makeResponse(user);
 	}
 
@@ -52,9 +51,9 @@ export class AuthController {
 			return null;
 		}
 
-		return {
-			user: session.user
-		};
+		const user = await this.userRepository.getUser(session.user.id);
+
+		return UserView.makeResponse(user);
 	}
 
 	@Get("/logout")
