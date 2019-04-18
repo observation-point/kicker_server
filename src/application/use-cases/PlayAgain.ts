@@ -15,17 +15,16 @@ export class PlayAgain {
 
 	public async execute(): Promise<void> {
 		const game = Game.getInstance();
-		if (game.status === GameStatus.FINISHED) {
-			game.playAgain();
-
-   			await this.gameRepository.save(game);
-			await this.savePLayers(game.players, game.id);
-
-			emitter.emit(EventType.StartGame, game.id);
-			this.socketService.emit("updated_game", game.getState());
-		} else {
+		if (game.status !== GameStatus.FINISHED) {
 			throw new Error("this game status is not finished");
 		}
+
+		game.playAgain();
+		await this.gameRepository.save(game);
+		await this.savePLayers(game.players, game.id);
+
+		emitter.emit(EventType.StartGame, game.id);
+		this.socketService.emit("updated_game", game.getState());
 	}
 
 	private async savePLayers(players: Player[], gameId: string): Promise<void> {
