@@ -14,7 +14,7 @@ import { AddGoal } from "../use-cases/AddGoal";
 import { AddPlayer } from "../use-cases/AddPlayer";
 import { NewGame } from "../use-cases/NewGame";
 import { PlayAgain } from "../use-cases/PlayAgain";
-import { RemoveFromLobby } from "../use-cases/removeFromLobby";
+import { RemoveFromLobby } from "../use-cases/RemoveFromLobby";
 import { StopGame } from "../use-cases/StopGame";
 import { AddPlayerForm } from "../validation/AddPlayerForm";
 import { GameView } from "../view/GameView";
