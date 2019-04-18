@@ -1,3 +1,4 @@
+import { emitter, EventType } from "src/components/events";
 import { Inject, Service } from "typedi";
 import { ForbiddenError } from "../../components/http-error";
 import { Game, Player } from "../../infrastructure/entities";
@@ -5,7 +6,6 @@ import { GameRepository } from "../../infrastructure/repository/GameRepository";
 import { UserRepository } from "../../infrastructure/repository/UserRepository";
 import { SocketService } from "../../infrastructure/services/SocketService";
 import { GameState, GameStatus, Role, Team } from "../../infrastructure/types";
-import { emitter, EventType } from "src/components/events";
 
 export interface AddPlayerParams { role: Role; team: Team; userId: string; }
 

@@ -17,7 +17,7 @@ export class PlayAgain {
 		const game = Game.getInstance();
 		if (game.status === GameStatus.FINISHED) {
 			game.playAgain();
-            await this.gameRepository.save(game);
+   await this.gameRepository.save(game);
 
 			await this.savePLayers(game.players, game.id);
 

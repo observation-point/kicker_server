@@ -1,4 +1,4 @@
-import { Body, Get, JsonController, OnUndefined, Param, Post, Put, UseBefore, Delete } from "routing-controllers";
+import { Body, Delete, Get, JsonController, OnUndefined, Param, Post, Put, UseBefore } from "routing-controllers";
 import { Inject } from "typedi";
 
 import { GetUserIdFromRequest } from "../../components/decorators/GetUserIdFromRequest";
@@ -14,10 +14,10 @@ import { AddGoal } from "../use-cases/AddGoal";
 import { AddPlayer } from "../use-cases/AddPlayer";
 import { NewGame } from "../use-cases/NewGame";
 import { PlayAgain } from "../use-cases/PlayAgain";
+import { RemoveFromLobby } from "../use-cases/removeFromLobby";
 import { StopGame } from "../use-cases/StopGame";
 import { AddPlayerForm } from "../validation/AddPlayerForm";
 import { GameView } from "../view/GameView";
-import { RemoveFromLobby } from "../use-cases/removeFromLobby";
 
 @JsonController("/api/game")
 export class GameController {
