@@ -19,8 +19,14 @@ export class GameRepository {
 		await getRepository(GameModel).save(plainToClass(GameModel, game.getScheme()));
 	}
 
-	public async savePlayer(player: Player): Promise<void> {
-		await getRepository(PlayerModel).save(plainToClass(PlayerModel, player.getScheme()));
+	public async savePlayers(players: Player[]): Promise<void> {
+
+		const promises = players.map(player => {
+			return getRepository(PlayerModel)
+				.save(plainToClass(PlayerModel, player.getScheme()));
+		});
+
+		await Promise.all(promises);
 	}
 
 	public async saveGoal(goal: Goal): Promise<void> {

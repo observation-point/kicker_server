@@ -1,4 +1,4 @@
-import { Body, Get, JsonController, OnUndefined, Param, Post, Put, UseBefore } from "routing-controllers";
+import { Body, Get, JsonController, OnUndefined, Param, Post, Put, UseBefore, Delete } from "routing-controllers";
 import { Inject } from "typedi";
 
 import { GetUserIdFromRequest } from "../../components/decorators/GetUserIdFromRequest";
@@ -17,6 +17,7 @@ import { PlayAgain } from "../use-cases/PlayAgain";
 import { StopGame } from "../use-cases/StopGame";
 import { AddPlayerForm } from "../validation/AddPlayerForm";
 import { GameView } from "../view/GameView";
+import { RemoveFromLobby } from "../use-cases/removeFromLobby";
 
 @JsonController("/api/game")
 export class GameController {
@@ -41,6 +42,9 @@ export class GameController {
 
 	@Inject()
 	private playAgain: PlayAgain;
+
+	@Inject()
+	private removeFromLobby: RemoveFromLobby;
 
 	@Get("/")
 	public async getState(): Promise<GameState> {
@@ -67,6 +71,14 @@ export class GameController {
 		@Body() { role, team }: AddPlayerForm
 	): Promise<GameState> {
 		return this.addPlayer.execute({ role, team, userId });
+	}
+
+	@Delete("/")
+	@UseBefore(CheckAuthorize)
+	public async removeFromLobbyAction(
+		@GetUserIdFromRequest() userId: string
+	): Promise<void> {
+		await this.removeFromLobby.execute(userId);
 	}
 
 	@Post("/stop")

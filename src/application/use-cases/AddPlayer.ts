@@ -5,6 +5,7 @@ import { GameRepository } from "../../infrastructure/repository/GameRepository";
 import { UserRepository } from "../../infrastructure/repository/UserRepository";
 import { SocketService } from "../../infrastructure/services/SocketService";
 import { GameState, GameStatus, Role, Team } from "../../infrastructure/types";
+import { emitter, EventType } from "src/components/events";
 
 export interface AddPlayerParams { role: Role; team: Team; userId: string; }
 
@@ -27,7 +28,6 @@ export class AddPlayer {
 			throw new ForbiddenError("you are already a player in this game");
 		}
 
-		await this.gameRepository.save(game);
 		if (game.status !== GameStatus.READY) {
 			throw new ForbiddenError("lobby is full");
 		}
@@ -40,8 +40,16 @@ export class AddPlayer {
 			user
 		});
 
-		await this.gameRepository.savePlayer(player);
 		game.addPlayer(player);
+
+		if (game.players.length === 4) {
+			game.status = GameStatus.INPROCESS;
+			game.startGame = new Date();
+			emitter.emit(EventType.StartGame, game.id);
+
+			await this.gameRepository.save(game);
+			await this.gameRepository.savePlayers(game.players);
+		}
 
 		this.socketService.emit("updated_game", game.getState());
 		return game.getState();
