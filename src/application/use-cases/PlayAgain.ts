@@ -17,8 +17,8 @@ export class PlayAgain {
 		const game = Game.getInstance();
 		if (game.status === GameStatus.FINISHED) {
 			game.playAgain();
-   await this.gameRepository.save(game);
 
+   			await this.gameRepository.save(game);
 			await this.savePLayers(game.players, game.id);
 
 			emitter.emit(EventType.StartGame, game.id);
@@ -29,14 +29,12 @@ export class PlayAgain {
 	}
 
 	private async savePLayers(players: Player[], gameId: string): Promise<void> {
-		const promises: any[] = [];
 
-		players.forEach((item) => {
+		const newPlayers = players.map((item) => {
 			const { role, team, user } = item;
-			const player = new Player({ gameId, team, role, user });
-			promises.push(this.gameRepository.savePlayer(player));
+			return new Player({ gameId, team, role, user });
 		});
 
-		await Promise.all(promises);
+		await this.gameRepository.savePlayers(newPlayers);
 	}
 }
