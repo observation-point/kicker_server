@@ -75,6 +75,7 @@ export class GameController {
 
 	@Delete("/")
 	@UseBefore(CheckAuthorize)
+	@OnUndefined(204)
 	public async removeFromLobbyAction(
 		@GetUserIdFromRequest() userId: string
 	): Promise<void> {
