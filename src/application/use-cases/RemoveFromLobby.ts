@@ -1,6 +1,6 @@
-import { Game } from "src/infrastructure/entities";
-import { GameStatus } from "src/infrastructure/types";
 import { Service } from "typedi";
+import { Game } from "../../infrastructure/entities";
+import { GameStatus } from "../../infrastructure/types";
 
 @Service()
 export class RemoveFromLobby {

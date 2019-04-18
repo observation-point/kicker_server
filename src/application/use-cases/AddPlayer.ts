@@ -1,5 +1,5 @@
-import { emitter, EventType } from "src/components/events";
 import { Inject, Service } from "typedi";
+import { emitter, EventType } from "../../components/events";
 import { ForbiddenError } from "../../components/http-error";
 import { Game, Player } from "../../infrastructure/entities";
 import { GameRepository } from "../../infrastructure/repository/GameRepository";
