@@ -18,10 +18,13 @@ export class GetLeaderboard {
 
 		for (const user of users) {
 			const userId = user.id;
-			const [gamesCount, winsInAttack, winsInDefense] = await Promise.all([
+			const [gamesCount, winrateAttack, winrateDefense, winCountAttack, winCountDefense] = await Promise.all([
 				this.gameRepository.getGameCount(userId),
+				this.gameRepository.getWinrate(userId, Role.Attack),
+				this.gameRepository.getWinrate(userId, Role.Defense),
 				this.gameRepository.getWinCount(userId, Role.Attack),
 				this.gameRepository.getWinCount(userId, Role.Defense)
+
 			]);
 
 			usersStats.push({
@@ -30,8 +33,9 @@ export class GetLeaderboard {
 				fullname: user.fullname,
 				rating: user.rating,
 				gamesCount,
-				winsInAttack,
-				winsInDefense
+				winrateAttack,
+				winrateDefense,
+				winGamesCount: winCountAttack + winCountDefense
 			});
 		}
 		return { usersStats };

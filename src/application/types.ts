@@ -30,8 +30,12 @@ export interface UserStats {
 	fullname: string;
 	rating: number;
 	gamesCount: number;
-	winsInAttack: number;
-	winsInDefense: number;
+	winsInAttack?: number;
+	winsInDefense?: number;
+
+	winrateAttack?: number;
+	winrateDefense?: number;
+	winGamesCount?: number;
 }
 
 export interface LeaderboardQuery {

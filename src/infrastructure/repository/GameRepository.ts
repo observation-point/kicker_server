@@ -33,6 +33,24 @@ export class GameRepository {
 		await getRepository(GoalModel).save(plainToClass(GoalModel, goal));
 	}
 
+	public async getWinrate(userId: string, role: Role): Promise<number> {
+		const winGames = await getRepository(GameModel).createQueryBuilder("game")
+			.leftJoin("player", "player", "game.id = player.gameId")
+			.where("game.status = :gameStatus", { gameStatus: GameStatus.FINISHED })
+			.andWhere("player.role = :role and player.userId = :userId", { userId, role })
+			.andWhere("game.winner = player.team")
+			.getMany();
+
+		const loseGames = await getRepository(GameModel).createQueryBuilder("game")
+			.leftJoin("player", "player", "game.id = player.gameId")
+			.where("game.status = :gameStatus", { gameStatus: GameStatus.FINISHED })
+			.andWhere("player.role = :role and player.userId = :userId", { userId, role })
+			.andWhere("game.winner != player.team")
+			.getMany();
+
+		return Number((winGames.length / loseGames.length).toFixed(2));
+	}
+
 	public async getWinCount(userId: string, role: Role): Promise<number> {
 		const games = await getRepository(GameModel).createQueryBuilder("game")
 			.leftJoin("player", "player", "game.id = player.gameId")

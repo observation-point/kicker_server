@@ -8,9 +8,6 @@ import { SocketService } from "../../infrastructure/services/SocketService";
 export class MessageController {
 
 	@Inject()
-	private gameRepository: GameRepository;
-
-	@Inject()
 	private socketService: SocketService;
 
 	@OnConnect()
@@ -19,12 +16,12 @@ export class MessageController {
 		this.socketService.addSocket(socket);
 		const game = Game.getInstance();
 
-		this.socketService.emit("updated_game", game.getState());
+		socket.emit("updated_game", game.getState());
 	}
 
 	@OnDisconnect()
 	public disconnect(@ConnectedSocket() socket: any) {
-		console.info();
+		this.socketService.deleteSocket(socket);
 	}
 
 }

@@ -8,6 +8,12 @@ export class SocketService {
 		this.sockets.push(socket);
 	}
 
+	public deleteSocket(socket: any) {
+		this.sockets = this.sockets.filter(item => {
+			return item.id !== socket.id;
+		});
+	}
+
 	public emit(type: string, data: any) {
 		this.sockets.forEach((item) => item.emit(type, data));
 	}

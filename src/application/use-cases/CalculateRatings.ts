@@ -62,16 +62,16 @@ export class CalculateRatings {
 	}
 
 	private async adjustDelta(userId: string, role: Role, delta: number, isWinner: boolean): Promise<number> {
-		const userAtackWinsCount = await this.gameRespository.getWinCount(userId, Role.Attack) || 1;
-		const userDefenceWinsCount = await this.gameRespository.getWinCount(userId, Role.Defense) || 1;
+		const userAtackWinrate = await this.gameRespository.getWinrate(userId, Role.Attack) || 1;
+		const userDefenceWinrate = await this.gameRespository.getWinrate(userId, Role.Defense) || 1;
 		let adjustedDelta: number;
 		if (role === Role.Attack) {
 			adjustedDelta = Math.round(
-				delta * (isWinner ? userDefenceWinsCount / userAtackWinsCount : userAtackWinsCount / userDefenceWinsCount)
+				delta * (isWinner ? userDefenceWinrate / userAtackWinrate : userAtackWinrate / userDefenceWinrate)
 			);
 		} else {
 			adjustedDelta = Math.round(
-				delta * (isWinner ? userAtackWinsCount / userDefenceWinsCount : userDefenceWinsCount / userAtackWinsCount)
+				delta * (isWinner ? userAtackWinrate / userDefenceWinrate : userDefenceWinrate / userAtackWinrate)
 			);
 		}
 		return adjustedDelta;
