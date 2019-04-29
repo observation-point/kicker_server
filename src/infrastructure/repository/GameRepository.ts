@@ -48,7 +48,7 @@ export class GameRepository {
 			.andWhere("game.winner != player.team")
 			.getMany();
 
-		return Number((winGames.length || 1 / loseGames.length || 1).toFixed(2));
+		return Number((winGames.length / loseGames.length).toFixed(2));
 	}
 
 	public async getWinCount(userId: string, role: Role): Promise<number> {
