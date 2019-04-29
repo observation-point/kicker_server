@@ -9,7 +9,7 @@ export class SocketService {
 	}
 
 	public deleteSocket(socket: any) {
-		this.sockets = this.sockets.filter(item => {
+		this.sockets = this.sockets.filter((item) => {
 			return item.id !== socket.id;
 		});
 	}
