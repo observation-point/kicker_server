@@ -19,7 +19,8 @@ export interface GameState {
 	players: Array<{
 		role: Role,
 		team: Team,
-		user: UserAttributes
+		user: UserAttributes,
+		winRate?: number
 	}>;
 	goals: Array<{
 		team: Team,

@@ -33,11 +33,13 @@ export class AddPlayer {
 		}
 
 		const user = await this.userRepository.getUser(userId);
+		const winRate = await this.gameRepository.getWinrate(userId, role);
 		const player = new Player({
 			gameId: game.id,
 			team,
 			role,
-			user
+			user,
+			winRate
 		});
 
 		game.addPlayer(player);

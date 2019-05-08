@@ -10,13 +10,15 @@ export class Player {
 	public user: User;
 	public team: Team;
 	public role: Role;
+	public winRate?: number;
 
-	public constructor(data: { gameId: string, team: Team, role: Role, user: User }) {
+	public constructor(data: { gameId: string, team: Team, role: Role, user: User, winRate?: number }) {
 		this.id = v4();
 		this.gameId = data.gameId;
 		this.user = data.user;
 		this.role = data.role;
 		this.team = data.team;
+		this.winRate = data.winRate;
 	}
 
 	public getScheme() {

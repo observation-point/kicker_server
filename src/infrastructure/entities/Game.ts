@@ -47,7 +47,8 @@ export class Game {
 				return {
 					role: item.role,
 					team: item.team,
-					user: item.user.serialize()
+					user: item.user.serialize(),
+					winRate: item.winRate
 				};
 			}) : [],
 			goals: this.goals ? this.goals.map((item) => {
