@@ -1,6 +1,7 @@
 import { Inject, Service } from "typedi";
 import { Game, Goal } from "../../infrastructure/entities";
 import { GameRepository } from "../../infrastructure/repository/GameRepository";
+import { ReplayService } from "../../infrastructure/services/ReplayService";
 import { SocketService } from "../../infrastructure/services/SocketService";
 import { GameStatus, Role, Team } from "../../infrastructure/types";
 import { GameStats, Goal as GoalData } from "../types";
@@ -21,6 +22,9 @@ export class AddGoal {
 	@Inject()
 	private ratingCalculator: CalculateRatings;
 
+	@Inject()
+	private replayService: ReplayService;
+
 	public async execute({ id, goals, status }: GameStats): Promise<void> {
 		const game = Game.getInstance();
 		await this.gameRepository.save(game);
@@ -29,6 +33,7 @@ export class AddGoal {
 
 		const newGoals = this.getNewGoals(goals, game);
 		await this.saveNewGoals(newGoals);
+		await this.replayService.recordGoal(newGoals[0].gameId, newGoals[0].id);
 
 		game.addGoals(newGoals);
 
@@ -78,6 +83,7 @@ export class AddGoal {
 
 		await this.ratingCalculator.execute(game);
 		await this.gameRepository.save(game);
+		await this.replayService.stopRecordingGame();
 	}
 
 }

@@ -21,6 +21,7 @@ export interface ConfigDictionary {
 
 export interface ServicesConfig extends BaseConfig {
 	observer: string;
+	replay: string;
 	token: string;
 }
 
