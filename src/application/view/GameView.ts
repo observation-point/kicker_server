@@ -15,7 +15,7 @@ export class GameView {
 				user: user.serialize()
 			};
 		});
-		const goals = gameModel.goals.map((item) => ({ team: item.team, time: item.time }));
+		const goals = gameModel.goals.map((item) => ({ id: item.id, team: item.team, time: item.time }));
 		const startGame = gameModel.startGame;
 		const endGame = gameModel.endGame;
 		const status = gameModel.status;
