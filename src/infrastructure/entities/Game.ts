@@ -53,6 +53,7 @@ export class Game {
 			}) : [],
 			goals: this.goals ? this.goals.map((item) => {
 				return {
+					id: item.id,
 					team: item.team,
 					time: item.time
 				};
