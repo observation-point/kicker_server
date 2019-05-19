@@ -1,10 +1,9 @@
 import { plainToClass } from "class-transformer";
-import { Inject, Service } from "typedi";
+import { Service } from "typedi";
 import { getRepository } from "typeorm";
 import { Game, Goal, Player } from "../entities";
 import { GameModel, GoalModel, PlayerModel } from "../models";
 import { GameStatus, Role } from "../types";
-import { UserRepository } from "./UserRepository";
 
 @Service()
 export class GameRepository {
@@ -48,7 +47,7 @@ export class GameRepository {
 			.andWhere("game.winner != player.team")
 			.getMany();
 
-		return Number((winGames.length / (loseGames.length || 1)).toFixed(2));
+		return Number(((winGames.length || 1) / (loseGames.length || 1)).toFixed(2));
 	}
 
 	public async getWinCount(userId: string, role: Role): Promise<number> {
