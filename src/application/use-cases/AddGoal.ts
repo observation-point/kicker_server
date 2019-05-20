@@ -33,7 +33,11 @@ export class AddGoal {
 
 		const newGoals = this.getNewGoals(goals, game);
 		await this.saveNewGoals(newGoals);
-		await this.replayService.recordGoal(newGoals[0].gameId, newGoals[0].id);
+		try {
+			await this.replayService.recordGoal(newGoals[0].gameId, newGoals[0].id);
+		} catch (error) {
+			console.error(error);
+		}
 
 		game.addGoals(newGoals);
 
@@ -83,7 +87,11 @@ export class AddGoal {
 
 		await this.ratingCalculator.execute(game);
 		await this.gameRepository.save(game);
-		await this.replayService.stopRecordingGame();
+		try {
+			await this.replayService.stopRecordingGame();
+		} catch (err) {
+			console.error(err);
+		}
 	}
 
 }

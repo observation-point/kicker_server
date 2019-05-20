@@ -21,9 +21,17 @@ export class NewGame {
 		if (game.status === GameStatus.FINISHED) {
 			game.reset();
 			await this.gameRepository.save(game);
-			await this.replayService.stopRecordingGame();
+			try {
+				await this.replayService.stopRecordingGame();
+			} catch (err) {
+				console.error(err);
+			}
 		} else {
-			await this.replayService.startRecordingGame(game.id);
+			try {
+				await this.replayService.startRecordingGame(game.id);
+			} catch (err) {
+				console.error(err);
+			}
 		}
 
 		this.socketService.emit("updated_game", game.getState());
