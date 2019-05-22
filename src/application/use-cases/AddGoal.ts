@@ -87,11 +87,6 @@ export class AddGoal {
 
 		await this.ratingCalculator.execute(game);
 		await this.gameRepository.save(game);
-		try {
-			await this.replayService.stopRecordingGame();
-		} catch (err) {
-			console.error(err);
-		}
 	}
 
 }
