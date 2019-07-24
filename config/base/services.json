@@ -1,5 +1,5 @@
 {
   "observer": "http://localhost:3000/api",
-  "replay": "http://www130.lan:3030/api",
+  "replay": "http://www131.lan:3030/api",
   "token": "kickass"
 }
