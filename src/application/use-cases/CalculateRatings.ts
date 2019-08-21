@@ -2,6 +2,7 @@ import { Inject, Service } from "typedi";
 import { Game, Player, User } from "../../infrastructure/entities";
 import { GameRepository } from "../../infrastructure/repository/GameRepository";
 import { UserRepository } from "../../infrastructure/repository/UserRepository";
+import { RatingHistoryService } from "../../infrastructure/services/RatingHistoryService";
 import { Role, Team } from "../../infrastructure/types";
 
 @Service()
@@ -10,6 +11,8 @@ export class CalculateRatings {
 	private gameRespository: GameRepository;
 	@Inject()
 	private userRepository: UserRepository;
+	@Inject()
+	private ratingHistoryService: RatingHistoryService;
 
 	public async execute(game: Game): Promise<void> {
 		let teamWinner: Team;
@@ -37,14 +40,12 @@ export class CalculateRatings {
 
 		usersWinners.forEach(async (user, index) => {
 			const newRating = user.rating + await this.adjustDelta(user.id, playersWinners[index].role, ratingDelta, true);
-			user.changeRating(newRating);
-			await this.userRepository.save(user);
+			await this.recordRatingChange(user, game, newRating);
 		});
 
 		usersLosssers.forEach(async (user, index) => {
 			const newRating = user.rating - await this.adjustDelta(user.id, playersLossers[index].role, ratingDelta, false);
-			user.changeRating(newRating);
-			await this.userRepository.save(user);
+			await this.recordRatingChange(user, game, newRating);
 		});
 	}
 
@@ -76,4 +77,11 @@ export class CalculateRatings {
 		}
 		return adjustedDelta;
 	}
+
+	private async recordRatingChange(user: User, game: Game, ratingNewValue: number) {
+		await this.ratingHistoryService.recordCurrentRating(user, game);
+		user.changeRating(ratingNewValue);
+		await this.userRepository.save(user);
+	}
+
 }
