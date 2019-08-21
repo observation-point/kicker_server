@@ -14,7 +14,7 @@
     "start-dev": "KICKER_ENV=dev nodemon ./dist/app",
     "migrate": "node ./dist/bin/dbConfig > ormconfig.json && node ./node_modules/typeorm/cli migration:run",
     "migrate-undo": "node ./dist/bin/dbConfig > ormconfig.json && node ./node_modules/typeorm/cli migration:revert",
-    "deploy": "pm2 deploy ecosystem.json prod"
+    "deploy": "./node_modules/.bin/pm2 deploy ecosystem.json prod"
   },
   "dependencies": {
     "axios": "^0.18.0",
@@ -51,6 +51,7 @@
     "@types/socket.io": "^2.1.2",
     "@types/uuid": "^3.4.4",
     "nodemon": "^1.18.10",
+    "pm2": "^3.5.1",
     "tslint": "^5.13.1",
     "typescript": "^3.3.3333"
   }
