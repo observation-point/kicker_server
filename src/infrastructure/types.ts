@@ -6,6 +6,7 @@ export interface UserAttributes {
 	rating: number;
 	password?: string;
 	token?: string;
+	prevRating?: number;
 }
 
 export interface UserQueryParam {

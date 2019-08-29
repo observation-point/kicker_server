@@ -6,12 +6,11 @@ export class RatingHistory1566412820088 implements MigrationInterface {
 		await queryRunner.query(
 			`create table rating_history (
                 id VARCHAR(40) primary key,
-								"gameId" VARCHAR(40) references game(id),
-								"userId" VARCHAR(40) references kicker_user(id),
+				"gameId" VARCHAR(40) references game(id),
+				"userId" VARCHAR(40) references kicker_user(id),
                 value integer not null,
                 "createdAt" timestamp with time zone default now()
-            );
-            `
+            );`
 		);
 	}
 

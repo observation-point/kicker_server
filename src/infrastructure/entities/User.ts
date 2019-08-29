@@ -7,6 +7,7 @@ export class User {
 	public fullname: string;
 	public avatar: string;
 	public rating: number;
+	public prevRating?: number;
 
 	public login: string;
 	public password: string;
@@ -39,7 +40,8 @@ export class User {
 			fullname: this.fullname,
 			avatar: this.avatar,
 			rating: this.rating,
-			token: this.token
+			token: this.token,
+			prevRating: this.prevRating
 		};
 	}
 
@@ -63,6 +65,11 @@ export class User {
 	}
 
 	public changeRating(newRating: number) {
+		this.prevRating = this.rating;
 		this.rating = newRating;
+	}
+
+	public setPrevRating(prevRating: number) {
+		this.prevRating = prevRating;
 	}
 }

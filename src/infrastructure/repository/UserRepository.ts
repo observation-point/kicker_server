@@ -1,7 +1,6 @@
 import { plainToClass } from "class-transformer";
 import { Service } from "typedi";
 import { FindConditions, getRepository, In } from "typeorm";
-import { LeaderboardQuery } from "../../application/types";
 import { NotFoundError } from "../../components/http-error";
 import { User } from "../entities";
 import { UserModel } from "../models";

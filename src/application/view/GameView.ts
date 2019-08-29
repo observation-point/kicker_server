@@ -1,10 +1,10 @@
 import { User } from "../../infrastructure/entities/User";
-import { GameModel, UserModel } from "../../infrastructure/models";
+import { GameModel } from "../../infrastructure/models";
 import { GameState } from "../../infrastructure/types";
 
 export class GameView {
-	public static makeResponse(gameModel: GameModel, users: User[]): GameState {
-
+	public static makeResponse(gameResults: { gameModel: GameModel, users: User[] }): GameState {
+		const { gameModel, users } = gameResults;
 		const id = gameModel.id;
 		const players = gameModel.players.map((item) => {
 			const user = users.find((u) => u.id === item.userId);

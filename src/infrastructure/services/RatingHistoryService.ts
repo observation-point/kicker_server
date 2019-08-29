@@ -25,8 +25,8 @@ class RatingHistoryService {
 		return record;
 	}
 
-	public async getHistory(user: User): Promise<RatingModel[]> {
-		return await this.repository.find({ where: { userId: user.id } });
+	public async getHistory(user: User, game: { id: string }): Promise<RatingModel[]> {
+		return await this.repository.find({ where: { userId: user.id, gameId: game.id } });
 	}
 
 }

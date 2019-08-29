@@ -2,16 +2,15 @@ import { Body, Delete, Get, JsonController, OnUndefined, Param, Post, Put, UseBe
 import { Inject } from "typedi";
 
 import { GetUserIdFromRequest } from "../../components/decorators/GetUserIdFromRequest";
-import { NotFoundError } from "../../components/http-error";
 import { CheckAuthorize } from "../../components/middlewares/CheckAuthorize";
 import { CheckObserverToken } from "../../components/middlewares/CheckObserverToken";
 import { Game } from "../../infrastructure/entities";
 import { GameRepository } from "../../infrastructure/repository/GameRepository";
-import { UserRepository } from "../../infrastructure/repository/UserRepository";
 import { GameState } from "../../infrastructure/types";
 import { GameStats, NewGameType } from "../types";
 import { AddGoal } from "../use-cases/AddGoal";
 import { AddPlayer } from "../use-cases/AddPlayer";
+import { GameResults } from "../use-cases/GameResults";
 import { NewGame } from "../use-cases/NewGame";
 import { PlayAgain } from "../use-cases/PlayAgain";
 import { RemoveFromLobby } from "../use-cases/RemoveFromLobby";
@@ -24,9 +23,6 @@ export class GameController {
 
 	@Inject()
 	private gameRepository: GameRepository;
-
-	@Inject()
-	private userRepository: UserRepository;
 
 	@Inject()
 	private addGoal: AddGoal;
@@ -46,12 +42,13 @@ export class GameController {
 	@Inject()
 	private removeFromLobby: RemoveFromLobby;
 
+	@Inject()
+	private gameResults: GameResults;
+
 	@Get("/")
 	public async getState(): Promise<GameState> {
 		const game = Game.getInstance();
-
 		await this.gameRepository.save(game);
-
 		return game.getState();
 	}
 
@@ -109,14 +106,7 @@ export class GameController {
 	public async getGameById(
 		@Param("id") id: string
 	): Promise<GameState> {
-		const gameModel = await this.gameRepository.getGameById(id);
-		if (!gameModel) {
-			throw new NotFoundError("game with id " + id + "not found");
-		}
-		const userIds = gameModel.players.map((item) => item.userId);
-		const users = await this.userRepository.getUsers({ ids: userIds });
-
-		return GameView.makeResponse(gameModel, users);
+		return GameView.makeResponse(await this.gameResults.execute(id));
 	}
 
 }

@@ -1,5 +1,4 @@
-import { v4, v4 as uuid } from "uuid";
-import { emitter, EventType } from "../../components/events";
+import { v4 as uuid } from "uuid";
 import { ForbiddenError } from "../../components/http-error";
 import { GameState, GameStatus, Team } from "../types";
 import { Goal } from "./Goal";

@@ -1,4 +1,4 @@
 {
-    "origin": ["http://kicker.lan", "http://kicker.servebeer.com"],
+    "origin": ["http://kicker.lan"],
     "credentials": true
 }
